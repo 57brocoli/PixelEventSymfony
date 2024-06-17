@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/blogStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/blogScript.js')}}' defer></script>
+{% endblock %}
+
+
+{% block body %}
+	<main class='d-flex flex-direction-colum j-content-between'>
+		<div class='d-flex j-content-between'>
+			<nav class='d-flex j-content-center' data-aos="fade-right" data-aos="flip-up">
+				<section>
+					<h4>Connecter</h4>
+				</section>
+			</nav>
+			<section class='d-flex flex flex-direction-colum a-items-center'>
+				<h4>Actualite</h4>
+				{% for post in array %}
+					<article class='post bg-c-purple' data-aos="flip-up" data-aos-offset="-300" data-aos-delay="{{ loop.index * 100 }}">
+						<h4>{{post.userName}}</h4>
+						<p>{{post.post}}</p>
+						<div>j'aime :
+							{{post.like}}</div>
+						<div class='pt-2 '>
+							<div>
+								<button class='btn-comms' onclick="showComments({{ post.id }})">Commentaires</button>
+								<button class='btn-comms' onclick="showComments({{ post.id }})">J'aime</button>
+							</div>
+							<div class='comments px-2' id='comments-{{ post.id }}'>
+								{% include './home/blog/comment.html.twig' with {comments: post.comments}%}
+							</div>
+						</div>
+					</article>
+				{% endfor %}
+			</section>
+			<aside class='d-flex j-content-center' data-aos="fade-left" data-aos-delay="300">
+				<h4>Utilisateur name</h4>
+			</aside>
+		</div>
+		<section class="mt-4 py-4 bg-c-greenDark">
+			<div data-aos="fade-zoom-in" data-aos-duration="1000">
+				{% include './footer/footer.html.twig' %}
+			</div>
+		</section>
+	</main>
+
+{% endblock %}

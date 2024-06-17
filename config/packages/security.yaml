@@ -11,15 +11,15 @@ security:
                 property: username
     firewalls:
         login:
-            pattern: ^/api/login
+            pattern: ^/webuser/login
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /webuser/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
    
         api:
-            pattern:   ^/api
+            pattern:   ^/webuser
             stateless: true
             jwt: ~
         dev:
@@ -30,6 +30,6 @@ security:
             provider: app_user_provider
    
     access_control:
-        - { path: ^/api/register, roles: PUBLIC_ACCESS  }
-        - { path: ^/api/login, roles: PUBLIC_ACCESS  }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/webuser/register, roles: PUBLIC_ACCESS  }
+        - { path: ^/webuser/login, roles: PUBLIC_ACCESS  }
+        - { path: ^/webuser,       roles: IS_AUTHENTICATED_FULLY }

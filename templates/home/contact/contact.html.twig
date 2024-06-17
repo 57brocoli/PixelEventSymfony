@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/contactStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='d-flex flex-direction-colum j-content-between'>
+		<div class='contactContainer'>
+			<section class='d-flex a-items-center flex-direction-colum flex mt-4 mx-2'>
+				<h2 class='my-2 h2'>Contact</h2>
+				<p class='t-2 mb-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit enim vitae sit adipisci quasi optio aspernatur suscipit harum laborum accusamus deserunt itaque eius non iste, perspiciatis eligendi quisquam? Necessitatibus, debitis?</p>
+				<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis accusamus quidem itaque repudiandae magnam delectus asperiores, molestiae cumque saepe libero.</p>
+				<h4 class='my-2 t-2'>Vous pouvez aussi nous contacter sur :</h4>
+				<ul class="d-flex j-content-center">
+					<li><img class='logo' src="{{asset('assets/logo/facebook.png')}}" alt="image reseaux sociaux"></li>
+					<li><img class='logo' src="{{asset('assets/logo/instagram.png')}}" alt="image reseaux sociaux"></li>
+					<li><img class='logo' src="{{asset('assets/logo/x.png')}}" alt="image reseaux sociaux"></li>
+					<li><img class='logo' src="{{asset('assets/logo/logoNS.jpg')}}" alt="image reseaux sociaux"></li>
+				</ul>
+			</section>
+			<section class='d-flex a-items-center flex-direction-colum flex mt-4 mx-2'>
+				<h2 class='my-2 h2'>Message</h2>
+				<form action="php" class='d-flex flex-direction-colum form-Container'>
+					<label for="name">Nom</label>
+					<input type="text" name="name" id="name">
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email">
+					<label for="motif">Motif</label>
+					<input type="text" name="motif" id="motif">
+					<label for="message">Message :</label>
+					<textarea id="message" name="message" rows="4" cols="50"></textarea>
+					<input type="submit">
+				</form>
+			</section>
+		</div>
+		<section class="mt-4 py-4 bg-c-greenDark">
+			<div data-aos="fade-zoom-in" data-aos-duration="1000">
+				{% include './footer/footer.html.twig' %}
+			</div>
+		</section>
+	</main>
+
+{% endblock %}

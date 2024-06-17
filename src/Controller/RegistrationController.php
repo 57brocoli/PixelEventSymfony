@@ -10,7 +10,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
   
-#[Route('/api', name: 'api_')]
+#[Route('/webuser', name: 'api_')]
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'register', methods: 'post')]
@@ -19,6 +19,7 @@ class RegistrationController extends AbstractController
         $em = $doctrine->getManager();
         $decoded = json_decode($request->getContent());
         $email = $decoded->email;
+        $username = $decoded->username;
         $plaintextPassword = $decoded->password;
     
         $user = new User();
@@ -28,7 +29,7 @@ class RegistrationController extends AbstractController
         );
         $user->setPassword($hashedPassword);
         $user->setEmail($email);
-        $user->setUsername($email);
+        $user->setUsername($username);
         $em->persist($user);
         $em->flush();
     

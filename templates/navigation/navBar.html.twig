@@ -1,0 +1,43 @@
+<header>
+	<div class="navbar">
+		<a href="/">
+			<img src="{{asset('assets/logo/logo.jpg')}}" class='logo' alt="logo">
+		</a>
+		<ul class='links'>
+			<li>
+				<a href="{{path('blog')}}">Blog</a>
+			</li>
+			<li>
+				<a href="{{path('about')}}">Apropos</a>
+			</li>
+			<li>
+				<a href="{{path('contact')}}">Contact</a>
+			</li>
+		</ul>
+		<div class="navButtons">
+			<a href="#" class='actionButton pro'>Espace pro</a>
+			<a href="#" class='actionButton'>Se connecter</a>
+		</div>
+		<div class="burgeurMenuButton">
+			<i class="fa-solid fa-bars"></i>
+		</div>
+	</div>
+	<div class="burgerMenu">
+		<ul class='links'>
+			<li>
+				<a href="{{path('blog')}}">Blog</a>
+			</li>
+			<li>
+				<a href="{{path('about')}}">Apropos</a>
+			</li>
+			<li>
+				<a href="{{path('contact')}}">Contact</a>
+			</li>
+			<div class="divider"></div>
+			<div class="buttonsBurgerMenu">
+				<a href="#" class='actionButton pro'>Espace pro</a>
+				<a href="#" class='actionButton'>Se connecter</a>
+			</div>
+		</ul>
+	</div>
+</header>
