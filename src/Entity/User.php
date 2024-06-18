@@ -29,6 +29,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $zipcode = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $city = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSubscriber = null;
  
     public function getId(): ?int
     {
@@ -110,5 +122,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): static
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getZipcode(): ?int
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(?int $zipcode): static
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function isSubscriber(): ?bool
+    {
+        return $this->isSubscriber;
+    }
+
+    public function setSubscriber(?bool $isSubscriber): static
+    {
+        $this->isSubscriber = $isSubscriber;
+
+        return $this;
     }
 }

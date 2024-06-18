@@ -15,8 +15,13 @@
 			</li>
 		</ul>
 		<div class="navButtons">
-			<a href="#" class='actionButton pro'>Espace pro</a>
-			<a href="#" class='actionButton'>Se connecter</a>
+			{% if app.user %}
+				<a href="" class='actionButton pro'>{{app.user.username}}</a>
+				<a href="{{path('app_logout')}}" class='actionButton'>Se deconnecter</a>
+			{% else %}
+				<a href="{{path('app_register')}}" class='actionButton pro'>S'inscrire</a>
+				<a href="{{path('app_login')}}" class='actionButton'>Se connecter</a>
+			{% endif %}
 		</div>
 		<div class="burgeurMenuButton">
 			<i class="fa-solid fa-bars"></i>
@@ -35,8 +40,13 @@
 			</li>
 			<div class="divider"></div>
 			<div class="buttonsBurgerMenu">
-				<a href="#" class='actionButton pro'>Espace pro</a>
-				<a href="#" class='actionButton'>Se connecter</a>
+				{% if app.user %}
+					<a href="" class='actionButton pro'>{{app.user.username}}</a>
+					<a href="{{path('app_logout')}}" class='actionButton'>Se deconnecter</a>
+				{% else %}
+					<a href="{{path('app_register')}}" class='actionButton pro'>S'inscrire</a>
+					<a href="{{path('app_login')}}" class='actionButton'>Se connecter</a>
+				{% endif %}
 			</div>
 		</ul>
 	</div>
