@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<section class='container'>
+			<h1 class='titre t-center'>{{page}}</h1>
+			<div class='box' data-aos="fade-up">
+				<h2 class='t-center'>Sites web et applications</h2>
+				<div class='listItems'>
+					{% for item in items %}
+						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ item.image) }}');">
+							<h2 class=''>{{item.titre}}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+			<div class='box' data-aos="fade-up">
+				<h2 class='t-center'>Utilisateurs</h2>
+				<div class='listItems'>
+					{% for item in user %}
+						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ item.image) }}');">
+							<h2 class=''>{{item.titre}}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+
+		</section>
+	</main>
+{% endblock %}

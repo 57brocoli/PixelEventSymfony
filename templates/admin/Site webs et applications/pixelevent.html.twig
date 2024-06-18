@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pixel Event
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<section class='container'>
+			<h1 class='titre t-center'>{{ page.titre }}</h1>
+			<a href="{{ path('admin_home') }}" class='btnRetour'>retour</a>
+
+			<div class='box'>
+				<h2 class='t-center'>Contenus</h2>
+				<div class='listItems'>
+					{% for card in page.Contenus %}
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+							<h2>{{ card.titre }}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class='box'>
+				<h2 class='t-center'>Evenements</h2>
+				<div class='listItems'>
+					{% for card in page.Evenements %}
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+							<h2>{{ card.titre }}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class='box'>
+				<h2 class='t-center'>Requêtes</h2>
+				<div class='listItems'>
+					{% for card in page.Requêtes %}
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+							<h2>{{ card.titre }}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</main>
+{% endblock %}

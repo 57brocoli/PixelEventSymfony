@@ -1,8 +1,16 @@
 <header>
 	<div class="navbar">
-		<a href="/">
-			<img src="{{asset('assets/logo/logo.jpg')}}" class='logo' alt="logo">
-		</a>
+		<div class='top'>
+			<a href="/">
+				<img src="{{asset('assets/logo/logo.jpg')}}" class='logo' alt="logo">
+			</a>
+			{% if is_granted('ROLE_ADMIN')  %}
+				<a href="{{path('admin_home')}}" class='adminButton'>
+					Admin
+				</a>
+			{% endif %}
+		</div>
+
 		<ul class='links'>
 			<li>
 				<a href="{{path('blog')}}">Blog</a>
