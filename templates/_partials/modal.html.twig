@@ -1,0 +1,13 @@
+{# Il est necessaire d'avoir comme propriétés "item" et le chemin d'acces au controler pour le button "supprimer" ainsi que ses parametres#}
+
+<div id="deleteModal-{{ item.id }}" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<p class="colorRed warning">Attention</p>
+		<hr class='my-2'>
+		<p class='colorBleu'>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+		<hr class='my-2'>
+		<a class='btnModifier anul'>Annuler</a>
+		<a href="{{ path(pathSupprimer, parametres) }}" id="confirmDelete" class='btnSupprimer'>Supprimer</a>
+	</div>
+</div>

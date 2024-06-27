@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenements
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Evenements</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+			<a href="{{ path('admin_edit_evenement') }}" class='button'>
+				Creer un nouveau evenement
+			</a>
+		</div>
+
+		<section class='container'>
+			<h3 class='my-2'>Liste des evenements</h3>
+
+			{% if evenements is not empty %}
+				{% for event in evenements %}
+					<div class='eventCard my-2 d-flex'>
+						<article class='article flex'>
+							<h3 class='mb-2'>{{event.name}}</h3>
+							<p class='description'>{{event.description}}</p>
+							<hr class='my-2'>
+							<p>Lieu de l'évènement :
+								{{event.city}}</p>
+							<p>Date de l'évènement :
+								{{event.date|date('d-m-Y')}}</p>
+							<ul class='mt-2'>
+								<button class='btnModifier'>
+									<a href="{{path("admin_edit_evenement", {'id': event.id})}}">Modifier</a>
+								</button>
+								<button class='btnProgramme'>
+									<a href="{{path("admin_edit_programme", {'id': event.id})}}">Programme</a>
+								</button>
+								<button id="deleteButton-{{ event.id }}" class='btnSupprimer sup55'>
+									<p>Supprimer</p>
+								</button>
+							</ul>
+						</article>
+						{% if event.featuredImage is not empty %}
+							<div class='img' style="background-image: url('{{ asset('uploads/evenements/'~ event.featuredImage)}}');"></div>
+						{% endif %}
+						{% include '_partials/modal.html.twig' with {
+							item:event,
+							pathSupprimer:"admin_delete_evenement",
+							parametres: {id: event.id}
+						} only %}
+					</div>
+				{% endfor %}
+			{% else %}
+				<p class='my-2'>Il n'y a aucun evenement pour le moments</p>
+			{% endif %}
+		</section>
+	</main>
+{% endblock %}

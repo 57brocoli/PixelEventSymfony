@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}edit
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Programme</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+		<section class='container'>
+			<section class='form-Container'>
+				{{ form_start(form) }}
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</main>
+{% endblock %}

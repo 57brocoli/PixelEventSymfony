@@ -9,7 +9,7 @@
 
 {% block body %}
 	<main class='mainType'>
-		<section class='container'>
+		<section class='container pb-4'>
 			<h1 class='titre t-center'>{{page}}</h1>
 			<div class='box' data-aos="fade-up">
 				<h2 class='t-center'>Sites web et applications</h2>
@@ -31,7 +31,16 @@
 					{% endfor %}
 				</div>
 			</div>
-
+			<div class='box' data-aos="fade-up" data-aos-offset="-300">
+				<h2 class='t-center'>Autres</h2>
+				<div class='listItems'>
+					{% for item in autre %}
+						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ item.image) }}');">
+							<h2 class=''>{{item.titre}}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
 		</section>
 	</main>
 {% endblock %}

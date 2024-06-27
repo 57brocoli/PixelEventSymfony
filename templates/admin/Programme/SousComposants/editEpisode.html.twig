@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}edit
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Programme</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+		<section class='container form-Container'>
+			{{ form_start(form) }}
+			{{ form_row(form.name) }}
+			{{ form_row(form.datetime) }}
+			<section class='d-flex wrap'>
+				<div class="flex">
+					{{ form_label(form.artiste, 'Artiste') }}
+					{{ form_row(form.artiste) }}</div>
+				<div class="flex">
+					{{ form_label(form.lieu, 'Lieu') }}
+					{{ form_row(form.lieu) }}</div>
+			</section>
+			{{ form_end(form) }}
+		</section>
+	</main>
+{% endblock %}

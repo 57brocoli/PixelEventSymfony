@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Repository\EventRepository;
+use App\Repository\ArtisteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\Entity(repositoryClass: ArtisteRepository::class)]
 #[ApiResource]
-class Event
+class Artiste
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,20 +24,19 @@ class Event
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $date = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
-
-    #[ORM\OneToOne(mappedBy: 'event', cascade: ['persist', 'remove'])]
-    private ?Programme $programme = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = null;
+    /**
+     * @var Collection<int, Episode>
+     */
+    #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'artiste')]
+    private Collection $episodes;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Image $featuredImage = null;
+
+    public function __construct()
+    {
+        $this->episodes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,57 +67,39 @@ class Event
         return $this;
     }
 
-    public function getDate(): ?\DateTimeImmutable
+    /**
+     * @return Collection<int, Episode>
+     */
+    public function getEpisodes(): Collection
     {
-        return $this->date;
+        return $this->episodes;
     }
 
-    public function setDate(\DateTimeImmutable $date): static
+    public function addEpisode(Episode $episode): static
     {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): static
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getProgramme(): ?Programme
-    {
-        return $this->programme;
-    }
-
-    public function setProgramme(Programme $programme): static
-    {
-        // set the owning side of the relation if necessary
-        if ($programme->getEvent() !== $this) {
-            $programme->setEvent($this);
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes->add($episode);
+            $episode->setArtiste($this);
         }
 
-        $this->programme = $programme;
+        return $this;
+    }
+
+    public function removeEpisode(Episode $episode): static
+    {
+        if ($this->episodes->removeElement($episode)) {
+            // set the owning side to null (unless already changed)
+            if ($episode->getArtiste() === $this) {
+                $episode->setArtiste(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function __toString()
     {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): static
-    {
-        $this->image = $image;
-
-        return $this;
+        return $this->getName();
     }
 
     public function getFeaturedImage(): ?Image

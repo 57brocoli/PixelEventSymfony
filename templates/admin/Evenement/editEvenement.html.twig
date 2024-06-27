@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit evenement
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Evenements</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+		<div class='container'>
+			<section class='form-Container my-4'>
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.description) }}
+				{{ form_row(form.featuredImage) }}
+				<section class='d-flex wrap'>
+					<div class='flex'>{{ form_row(form.date) }}</div>
+					<div class='flex'>{{ form_row(form.city) }}</div>
+				</section>
+				{{ form_end(form) }}
+			</section>
+		</div>
+
+	</main>
+{% endblock %}

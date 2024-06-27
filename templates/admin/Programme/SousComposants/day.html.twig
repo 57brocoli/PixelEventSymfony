@@ -1,0 +1,70 @@
+<section class='dayContainer'>
+	<div class='d-flex wrap j-content-between a-items-center'>
+		<h3 class='my-2'>{{day.name}}</h3>
+		<p class='my-2'>{{day.date|date("d/m/Y")}}</p>
+		<div>
+			<button class='btnModifier'>
+				<a href="{{ path('admin_edit_day', {'idEvent': programme.id, 'id': day.id}) }}">Modifier</a>
+			</button>
+			<button id="deleteButton-{{ day.id }}" class='btnSupprimer sup12'>
+				<p>Supprimer</p>
+			</button>
+		</div>
+		{# donnée : item = day / pathSupprimer = controler pour supprimer l'episode / parametres = parametres pour le controller #}
+		{% include '_partials/modal.html.twig' with {
+			item:day,
+			programme: programme,
+			pathSupprimer:"admin_delete_day",
+			parametres: {idProg: programme.id, id: day.id}
+		} only %}
+	</div>
+	<div class='dayForm'>
+		<section class='form-Container my-4 mx-1'>
+			{{ form_start(dayForm) }}
+			{{ form_end(dayForm) }}
+		</section>
+	</div>
+	<hr>
+	<div>
+		<button class='btnModifier my-2'>
+			<a href="{{path('admin_edit_episode', {idProg:programme.id, idDay:day.id})}}">Ajouter</a>
+		</button>
+		{% if day.episodes is empty %}
+			<p>Il n'y a aucun evenement pour cette journée</p>
+		{% else %}
+			<table class='w-100'>
+				<tr>
+					<th class='t-left'>Episode</th>
+					<th class='t-left'>Heure</th>
+					<th class='t-left'>Artiste</th>
+					<th class='t-left'>Scene</th>
+					<th class='t-left'></th>
+				</tr>
+				{% for episode in day.episodes %}
+					<tr>
+						<td class='py-07'>{{episode.name}}</td>
+						<td>{{episode.datetime|format_datetime('none', 'short', locale='fr')}}</td>
+						<td>{{episode.artiste}}</td>
+						<td>{{episode.lieu}}</td>
+						<td>
+							<button class='btnModifier'>
+								<a href="{{path('admin_edit_episode', {idProg:programme.id, idDay:day.id, id:episode.id})}}">Modifier</a>
+							</button>
+							<button class='btnSupprimer sup77' id="deleteButton-{{ episode.id }}">
+								<p>Supprimer</p>
+								{# <a href="{{path('admin_delete_episode', {idProg:programme.id, id:episode.id})}}"></a> #}
+							</button>
+						</td>
+					</tr>
+					{# donnée : item = episode / pathSupprimer = controler pour supprimer l'episode / parametres = parametres pour le controller #}
+					{% include '_partials/modal.html.twig' with {
+						item:episode,
+						programme: programme,
+						pathSupprimer:"admin_delete_episode",
+						parametres: { idProg: programme.id, id: episode.id }
+					} only %}
+				{% endfor %}
+			</table>
+		{% endif %}
+	</div>
+</section>

@@ -7,35 +7,35 @@
 	<main class='mainType'>
 		<h2 class='t-center titre'>Inscription</h2>
 		{{ form_start(form) }}
-		<section class='form-main'>
-			<div class='form-Container'>
-				<div>
-					{{ form_label(form.email, 'Email') }}
-					{{ form_row(form.email) }}
+		<section class='container'>
+			<section class='form-main'>
+				<div class='form-Container'>
+					<div>
+						{{ form_label(form.email, 'Email') }}
+						{{ form_row(form.email) }}
+					</div>
+					<div>
+						{{ form_label(form.username, 'Pseudo') }}
+						{{ form_row(form.username) }}
+					</div>
 				</div>
-				<div>
-					{{ form_label(form.username, 'Pseudo') }}
-					{{ form_row(form.username) }}
+				<div class='form-Container'>
+					<div>
+						{{ form_label(form.address, 'Adresse') }}
+						{{ form_row(form.address) }}
+					</div>
+					<div>
+						{{ form_label(form.zipcode, 'Code postale') }}
+						{{ form_row(form.zipcode) }}
+					</div>
+					<div>
+						{{ form_label(form.city, 'Ville') }}
+						{{ form_row(form.city) }}
+					</div>
 				</div>
-			</div>
-			<div class='form-Container'>
-				<div>
-					{{ form_label(form.address, 'Adresse') }}
-					{{ form_row(form.address) }}
-				</div>
-				<div>
-					{{ form_label(form.zipcode, 'Code postale') }}
-					{{ form_row(form.zipcode) }}
-				</div>
-				<div>
-					{{ form_label(form.city, 'Ville') }}
-					{{ form_row(form.city) }}
-				</div>
-			</div>
-		</section>
-		<section>
-			<div class='form-Container'>
-				<div>
+			</section>
+			<section class='form-main'>
+				<div class='form-Container'>
 					{{ form_label(form.password.first, 'Mot de passe') }}
 					{{ form_row(form.password.first) }}
 					{{ form_errors(form.password.second) }}
@@ -52,8 +52,9 @@
 
 					{{ form_row(form.valider) }}
 				</div>
-			</div>
+			</section>
 		</section>
+
 		{{ form_end(form) }}
 
 	</main>

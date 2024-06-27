@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Lieux</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+			<div class='button'>
+				<a href="{{path('admin_edit_lieu')}}">Ajouter un lieu</a>
+			</div>
+		</div>
+
+		<section class='container my-2'>
+			<h3>Liste de tous les lieux</h3>
+			<div class='d-flex wrap'>
+				{% for lieu in lieux %}
+					<article class='cardArtiste m-2'>
+						<h3 class='t-center'>{{lieu.name}}</h3>
+						<div class='my-2 mx-2'>
+							<button class='btnModifier'>
+								<a href="{{path('admin_edit_lieu',{id:lieu.id})}}">Modifier</a>
+							</button>
+							<button class='btnSupprimer'>
+								<a href="{{path('admin_delete_lieu', {id:lieu.id})}}">Supprimer</a>
+							</button>
+						</div>
+					</article>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+{% endblock %}

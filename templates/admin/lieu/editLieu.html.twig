@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit lieu
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Lieu</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+
+		<section class='form-Container my-4 mx-1'>
+			{{ form_start(form) }}
+			{{ form_row(form.name) }}
+			{{ form_row(form.description) }}
+			{{ form_label(form.category,'Categorie') }}
+			{{ form_row(form.category) }}
+			<section class='frame'>
+				<h4 class='my-07'>Champs reservés à la géolocalisation ( falcultatif ).</h4>
+				{{ form_row(form.gpsLat) }}
+				{{ form_row(form.gpsLng) }}
+			</section>
+			{{ form_end(form) }}
+		</section>
+	</main>
+{% endblock %}

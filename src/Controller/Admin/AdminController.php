@@ -23,10 +23,18 @@ class AdminController extends AbstractController
             new Card('Liste des utilisateurs', 'logo.jpg', 'admin_home'),
             new Card('Ajouter un utilisateur', 'logo.jpg', 'admin_home'),
         ];
+        $autre=[
+            new Card('Partenaires', 'logo.jpg', 'admin_home'),
+            new Card('Artistes', 'logo.jpg', 'admin_artistes'),
+            new Card('Lieux', 'logo.jpg', 'admin_lieux'),
+            new Card('Notifications', 'logo.jpg', 'admin_home'),
+            new Card('Liens', 'logo.jpg', 'admin_home'),
+        ];
         return $this->render('admin/index.html.twig', [
             'page' => $page,
             'items' => $items,
             'user' => $user,
+            'autre' => $autre,
         ]);
     }
 
@@ -42,7 +50,7 @@ class AdminController extends AbstractController
                 new Card('Category', 'logo.jpg', 'admin_home')
             ],
             "Evenements"=>[
-                new Card('Evenements', 'logo.jpg', 'admin_home'),
+                new Card('Evenements', 'logo.jpg', 'admin_evenement'),
                 new Card('Partenaires', 'logo.jpg', 'admin_home')
             ],
             "Requêtes"=>[

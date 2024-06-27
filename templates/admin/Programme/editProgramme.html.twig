@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit programme
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Programme</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+
+		<section class='container my-2'>
+			{% if new is same as(true) %}
+				<p>Il n'y a aucun programme attribué à cet evenement</p>
+				<p>Vous pouvez éditer un programme en cliquant sur editer.</p>
+				<button class='button my-2' onclick={showProgForm()}>
+					Editer
+				</button>
+				<div class='progForm'>
+					<section class='form-Container my-4 mx-1'>
+						{{ form_start(progForm) }}
+						{{ form_end(progForm) }}
+					</section>
+				</div>
+			{% else %}
+				<h3>{{programme.name}}</h3>
+				<button class='button my-2' onclick={showDayForm()}>
+					Ajouter une journée
+				</button>
+				<div class='dayForm'>
+					<section class='form-Container my-4 mx-1'>
+						{{ form_start(dayForm) }}
+						{{ form_end(dayForm) }}
+					</section>
+				</div>
+				{% if programme.days is empty%}
+					<p>Le programme est vide. Vous pouvez commencer à ajouter du contenu en cliquant sur "Ajouter une journée".</p>
+				{% else %}
+					<div class='d-flex a-items-center flex-column'>
+						{% for day in days %}
+							{% include 'admin/Programme/SousComposants/day.html.twig' with {'day': day, 'programme':programme} %}
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endif %}
+
+		</section>
+	</main>
+{% endblock %}
