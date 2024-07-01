@@ -20,15 +20,15 @@ class AdminController extends AbstractController
             new Card('Nation Sound', 'logoNS.jpg', 'admin_nationsound'),
         ];
         $user=[
-            new Card('Liste des utilisateurs', 'logo.jpg', 'admin_home'),
-            new Card('Ajouter un utilisateur', 'logo.jpg', 'admin_home'),
+            new Card('Liste des utilisateurs', 'user.png', 'admin_users'),
+            new Card('Ajouter un utilisateur', 'users.png', 'admin_edit_user'),
         ];
         $autre=[
-            new Card('Partenaires', 'logo.jpg', 'admin_home'),
-            new Card('Artistes', 'logo.jpg', 'admin_artistes'),
-            new Card('Lieux', 'logo.jpg', 'admin_lieux'),
-            new Card('Notifications', 'logo.jpg', 'admin_home'),
-            new Card('Liens', 'logo.jpg', 'admin_home'),
+            new Card('Partenaires', 'sponsor.jpg', 'admin_home'),
+            new Card('Artistes', 'artiste.jpg', 'admin_artistes'),
+            new Card('Lieux', 'lieu.jpg', 'admin_lieux'),
+            new Card('Notifications', 'notification.png', 'admin_home'),
+            new Card('Liens', 'link.jpg', 'admin_home'),
         ];
         return $this->render('admin/index.html.twig', [
             'page' => $page,
@@ -46,15 +46,15 @@ class AdminController extends AbstractController
             "titre" => "Pixel Event",
 
             "Contenus"=>[
-                new Card('Article', 'logo.jpg', 'admin_home'),
-                new Card('Category', 'logo.jpg', 'admin_home')
+                new Card('Article', 'article.jpg', 'admin_home'),
+                new Card('Category', 'category.jpg', 'admin_home')
             ],
             "Evenements"=>[
-                new Card('Evenements', 'logo.jpg', 'admin_evenement'),
-                new Card('Partenaires', 'logo.jpg', 'admin_home')
+                new Card('Evenements', 'event.jpg', 'admin_evenement'),
+                new Card('Partenaires', 'sponsor.jpg', 'admin_home')
             ],
             "Requêtes"=>[
-                new Card('Liste des requêtes', 'logo.jpg', 'admin_home'),
+                new Card('Liste des requêtes', 'request.jpg', 'admin_home'),
             ]
         ];
         

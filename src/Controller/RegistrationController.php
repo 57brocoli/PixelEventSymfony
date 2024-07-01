@@ -1,7 +1,8 @@
 <?php
   
 namespace App\Controller;
-  
+
+use App\Entity\Request as EntityRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,9 +29,35 @@ class RegistrationController extends AbstractController
                 $form->get("password")->getData()
                 )
             );
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('home');
+            //On recupère le pseudo de l'utilisateur
+            $pseudo = $form->get('username')->getData();
+            //On découpe la chaine de caractère
+            $parts = explode(' ', $pseudo);
+            //On récupère la dernier partie de la chaine de caractère
+            $lastPart = end($parts);
+            //Si la derniere partie est = à pr77 il s-agit d'une demande d'administateur, si non d'un simple utilisateur
+            if ($lastPart === 'pr77') {
+                //On retire pr77 au usernamne
+                $username = str_replace(" pr77", "", $pseudo);
+                // on attribut la nouvelle valeur $username à user
+                $user->setUsername($username);
+                //On rédige une nouvelle requête 
+                $requestAdmin = new EntityRequest();
+                $requestAdmin->setUser($user);
+                $requestAdmin->setMotif('Demande administrateur');
+                $requestAdmin->setcontent('Un nouvel utilisateur souhaite devenir administrateur');
+                $requestAdmin->setStatut(false);
+                $requestAdmin->setOpen(false);
+                $requestAdmin->setCategory(5);
+                $em->persist($user);
+                $em->persist($requestAdmin);
+                $em->flush();
+                return $this->redirectToRoute('home');
+            } else {
+                $em->persist($user);
+                $em->flush();
+                return $this->redirectToRoute('home');
+            }
         }
         return $this->render('registration/register.html.twig',[
             'form' => $form->createView(),
@@ -45,7 +72,6 @@ class RegistrationController extends AbstractController
         $email = $decoded->email;
         $username = $decoded->username;
         $plaintextPassword = $decoded->password;
-    
         $user = new User();
         $hashedPassword = $passwordHasher->hashPassword(
             $user,

@@ -25,17 +25,22 @@
 				<h2 class='t-center'>Utilisateurs</h2>
 				<div class='listItems'>
 					{% for item in user %}
-						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ item.image) }}');">
+						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/img/' ~ item.image) }}');">
 							<h2 class=''>{{item.titre}}</h2>
 						</a>
 					{% endfor %}
+					{% if is_granted('ROLE_SUPER_ADMIN') %}
+						<a href="{{path('admin_request_admin')}}" class='card' style="background-image: url('{{ asset('assets/img/Astronote.jpg') }}');">
+							<h2 class=''>Administrateurs</h2>
+						</a>
+					{% endif %}
 				</div>
 			</div>
 			<div class='box' data-aos="fade-up" data-aos-offset="-300">
 				<h2 class='t-center'>Autres</h2>
 				<div class='listItems'>
 					{% for item in autre %}
-						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ item.image) }}');">
+						<a href="{{path(item.link)}}" class='card' style="background-image: url('{{ asset('assets/img/' ~ item.image) }}');">
 							<h2 class=''>{{item.titre}}</h2>
 						</a>
 					{% endfor %}

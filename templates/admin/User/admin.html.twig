@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrateur
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Administrateur</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+
+		<section class='container my-2'>
+			<h3>Liste des administrateurs en attente :</h3>
+			<div class='d-flex j-content-between wrap my-2'>
+				{% for request in requests %}
+					<article class='requestAdmin d-flex wrap j-content-between a-items-center'>
+						<h4>{{request.user.username}}</h4>
+						<p>{{request.createdAt|date('d/m/Y H:i')}}</p>
+						{% if request.statut is same as(true) %}
+							<p class='c-green'>Traitée :
+								{% if request.user.roles[0] is same as('ROLE_USER') %}
+									<span class='colorRed'>Non validé</span>
+								{% elseif request.user.roles[0] is same as('ROLE_ADMIN') %}
+									Validé
+								{% endif %}
+							</p>
+						{% else %}
+							<p>Non traitée</p>
+						{% endif %}
+						<div>
+							<button class='btnModifier'>
+								<a href="{{path('admin_valide_admin', {'request' :request.id, 'id':request.user.id, 'response':'true'})}}">Accepter</a>
+							</button>
+							<button class='btnSupprimer'>
+								<a href="{{path('admin_valide_admin', {'request' :request.id, 'id':request.user.id, 'response':'false'})}}">Refuser</a>
+							</button>
+						</div>
+					</article>
+				{% endfor %}
+				{% if requests is empty %}
+					<h4>Auncune demande pour le moment</h4>
+				{% endif %}
+			</div>
+		</section>
+	</main>
+{% endblock %}

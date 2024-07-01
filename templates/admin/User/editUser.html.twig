@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit utilisateur
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Utilisateur</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+
+		<section class='container'>
+			{{ form_start(form) }}
+			<section class='form-main'>
+				<div class='form-Container'>
+					<div>
+						{{ form_row(form.email) }}
+					</div>
+					<div>
+						{{ form_row(form.username) }}
+					</div>
+				</div>
+				<div class='form-Container'>
+					<div>
+						{{ form_row(form.address) }}
+					</div>
+					<div>
+						{{ form_row(form.zipcode) }}
+					</div>
+					<div>
+						{{ form_row(form.city) }}
+					</div>
+				</div>
+			</section>
+			<section class='form-main'>
+				<div class='form-Container'>
+					{{ form_row(form.password) }}
+					<div class="checkbox">
+						{{ form_widget(form.isSubscriber) }}
+						{{ form_label(form.isSubscriber) }}
+					</div>
+					{{ form_row(form.Valider) }}
+				</div>
+			</section>
+			{{ form_end(form) }}
+		</section>
+
+	</main>
+{% endblock %}

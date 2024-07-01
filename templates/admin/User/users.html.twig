@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Utilisateur</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+			<div class='button'>
+				<a href="{{path('admin_edit_user')}}">Ajouter un utilisateur</a>
+			</div>
+		</div>
+
+		<section class='container my-2'>
+			<h3>Liste des utilisateurs</h3>
+			<div class='d-flex j-content-between wrap'>
+				{% for user in users %}
+					<article class='cardUser m-2'>
+						<h3 class='t-center my-2'>{{user.username}}</h3>
+						<button id="detailModal-{{ user.id }}" class='btnDetail mx-2 det12'>
+							<p>Details</p>
+						</button>
+						<div class='my-2 mx-2 d-flex j-content-between g-2'>
+							<button class='btnModifier flex'>
+								<a href="{{path('admin_edit_user', {id:user.id})}}">Modifier</a>
+							</button>
+							<button class='btnSupprimer flex'>
+								<a href="{{path('admin_delete_user', {id:user.id})}}">Supprimer</a>
+							</button>
+						</div>
+						{% include '_partials/modalDetail.html.twig' with {
+                            item:user,
+                        } only %}
+					</article>
+				{% endfor %}
+			</div>
+		</section>
+	</main>
+{% endblock %}
