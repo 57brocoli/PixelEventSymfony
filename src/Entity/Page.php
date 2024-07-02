@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
@@ -20,6 +22,20 @@ class Page
 
     #[ORM\Column(length: 150)]
     private ?string $slug = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $belong = null;
+
+    /**
+     * @var Collection<int, PageSection>
+     */
+    #[ORM\OneToMany(targetEntity: PageSection::class, mappedBy: 'page')]
+    private Collection $sections;
+
+    public function __construct()
+    {
+        $this->sections = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,6 +62,48 @@ class Page
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getBelong(): ?string
+    {
+        return $this->belong;
+    }
+
+    public function setBelong(?string $belong): static
+    {
+        $this->belong = $belong;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PageSection>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(PageSection $section): static
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections->add($section);
+            $section->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(PageSection $section): static
+    {
+        if ($this->sections->removeElement($section)) {
+            // set the owning side to null (unless already changed)
+            if ($section->getPage() === $this) {
+                $section->setPage(null);
+            }
+        }
 
         return $this;
     }

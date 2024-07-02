@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PageSectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageSectionRepository::class)]
+#[ApiResource]
 class PageSection
 {
     #[ORM\Id]
@@ -30,6 +32,12 @@ class PageSection
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'pagesSectionImages')]
     private Collection $images;
+
+    #[ORM\ManyToOne(inversedBy: 'sections')]
+    private ?Page $page = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $Category = null;
 
     public function __construct()
     {
@@ -104,6 +112,30 @@ class PageSection
                 $image->setPagesSectionImages(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    public function setPage(?Page $page): static
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->Category;
+    }
+
+    public function setCategory(?string $Category): static
+    {
+        $this->Category = $Category;
 
         return $this;
     }

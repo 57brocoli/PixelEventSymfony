@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Class\Card;
+use App\Entity\Page;
+use App\Repository\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -47,14 +49,14 @@ class AdminController extends AbstractController
 
             "Contenus"=>[
                 new Card('Article', 'article.jpg', 'admin_home'),
-                new Card('Category', 'category.jpg', 'admin_home')
+                new Card('Category', 'category.png', 'admin_home')
             ],
             "Evenements"=>[
                 new Card('Evenements', 'event.jpg', 'admin_evenement'),
                 new Card('Partenaires', 'sponsor.jpg', 'admin_home')
             ],
             "Requêtes"=>[
-                new Card('Liste des requêtes', 'request.jpg', 'admin_home'),
+                new Card('Liste des requêtes', 'request.png', 'admin_home'),
             ]
         ];
         
@@ -66,23 +68,16 @@ class AdminController extends AbstractController
 
     //Controller pour le site nation sound
     #[Route('/siteweb/nationsound', name: '_nationsound')]
-    public function nation(): Response
+    public function nation(PageRepository $pr): Response
     {
+        $pages = $pr->findBy(['belong'=>'Nation Sound']);
         $page = [
             "titre" => "Nation Sound",
             "Programme" => [
-                new Card('Jour', 'logo.jpg', 'admin_home'),
-                new Card('Episode', 'logo.jpg', 'admin_home'),
-                new Card('Artiste', 'logo.jpg', 'admin_home'),
-                new Card('Scene', 'logo.jpg', 'admin_home')
-            ],
-            "Contenu" => [
-                new Card('Accueil', 'logo.jpg', 'admin_home'),
-                new Card('Billetterie', 'logo.jpg', 'admin_home'),
-                new Card('Programme', 'logo.jpg', 'admin_home'),
-                new Card('Actualités / FAQ', 'logo.jpg', 'admin_home'),
-                new Card('Sponsors', 'logo.jpg', 'admin_home'),
-                new Card('A propos', 'logo.jpg', 'admin_home')
+                new Card('Jour', 'event.jpg', 'admin_home'),
+                new Card('Episode', 'logo1.jpg', 'admin_home'),
+                new Card('Artiste', 'artiste.jpg', 'admin_home'),
+                new Card('Scene', 'scene.jpg', 'admin_home')
             ],
             "Autre" => [
                 new Card('Lieux', 'logo.jpg', 'admin_home'),
@@ -92,6 +87,7 @@ class AdminController extends AbstractController
         ];
         return $this->render('admin/site webs et applications/nationsound.html.twig', [
             'page' => $page,
+            'pages' => $pages,
         ]);
     }
 }

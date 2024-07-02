@@ -11,13 +11,15 @@
 	<main class='mainType'>
 		<section class='container'>
 			<h1 class='titre t-center'>{{ page.titre }}</h1>
-			<a href="{{ path('admin_home') }}" class='btnRetour'>retour</a>
+			<button class='btnRetour mb-2'>
+				<a href="{{ path('admin_home') }}">retour</a>
+			</button>
 
 			<div class='box'>
 				<h2 class='t-center'>Contenus</h2>
 				<div class='listItems'>
 					{% for card in page.Contenus %}
-						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/img/' ~ card.image) }}');">
 							<h2>{{ card.titre }}</h2>
 						</a>
 					{% endfor %}
@@ -28,7 +30,7 @@
 				<h2 class='t-center'>Evenements</h2>
 				<div class='listItems'>
 					{% for card in page.Evenements %}
-						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/img/' ~ card.image) }}');">
 							<h2>{{ card.titre }}</h2>
 						</a>
 					{% endfor %}
@@ -39,7 +41,7 @@
 				<h2 class='t-center'>Requêtes</h2>
 				<div class='listItems'>
 					{% for card in page.Requêtes %}
-						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/img/' ~ card.image) }}');">
 							<h2>{{ card.titre }}</h2>
 						</a>
 					{% endfor %}
