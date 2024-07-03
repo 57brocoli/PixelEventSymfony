@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Styles
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<section class='container py-2'>
+			<h1 class='titre t-center'>Styles</h1>
+			<div class='d-flex g-1'>
+				<button class='btnRetour'>
+					<a href="{{path("admin_home")}}">Retour</a>
+				</button>
+				<div class='button'>
+					<a href="{{path("admin_edit_style")}}">Ajouter</a>
+				</div>
+			</div>
+		</section>
+
+		<section class='container'>
+			{% if styles is empty %}
+				<h3>Aucun style pour le moment</h3>
+			{% else %}
+				<h2>Liste des styles</h2>
+
+				<table class='w-100 tableStyle'>
+					<tr>
+						<th class='t-left c-green'>Propriété</th>
+						<th class='t-left c-green'>Valeur</th>
+						<th class='t-left'></th>
+					</tr>
+					{% for style in styles %}
+						<tr>
+							<td>{{style.property}}</td>
+							<td>{{style.value}}
+								{% if style.property == 'background-color' or style.property == 'color' %}
+									<div style="background-color: {{ style.value }}; margin-left: 10px; width: 50px; height: 15px; display: inline-block;"></div>
+								{% endif %}
+							</td>
+							<td>
+								<button class='btnModifier'>
+									<a href="{{path("admin_edit_style", {id:style.id})}}">Modifier</a>
+								</button>
+								<button class='btnSupprimer sup77' id="">
+									<a href="{{path("admin_delete_style", {id:style.id})}}">Supprimer</a>
+								</button>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			{% endif %}
+		</section>
+	</main>
+{% endblock %}

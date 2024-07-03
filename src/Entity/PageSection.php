@@ -39,9 +39,16 @@ class PageSection
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $Category = null;
 
+    /**
+     * @var Collection<int, Style>
+     */
+    #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'pageSection')]
+    private Collection $styles;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->styles = new ArrayCollection();
     }
 
 
@@ -136,6 +143,33 @@ class PageSection
     public function setCategory(?string $Category): static
     {
         $this->Category = $Category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Style>
+     */
+    public function getStyles(): Collection
+    {
+        return $this->styles;
+    }
+
+    public function addStyle(Style $style): static
+    {
+        if (!$this->styles->contains($style)) {
+            $this->styles->add($style);
+            $style->addPageSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStyle(Style $style): static
+    {
+        if ($this->styles->removeElement($style)) {
+            $style->removePageSection($this);
+        }
 
         return $this;
     }

@@ -62,6 +62,12 @@ class PageController extends AbstractController
             $slug = $si->slug($page->getName())->lower();
             $page->setSlug($slug);
             $page->setBelong('Nation Sound');
+            $styles = $form->get('styles')->getData();
+            if ($styles) {
+                foreach ($styles as $style) {
+                    $page->addStyle($style);
+                }
+            }
             $em->persist($page);
             $em->flush();
             return $this->redirectToRoute('admin_nationsound');

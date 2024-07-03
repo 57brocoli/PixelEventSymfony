@@ -32,9 +32,16 @@ class Page
     #[ORM\OneToMany(targetEntity: PageSection::class, mappedBy: 'page')]
     private Collection $sections;
 
+    /**
+     * @var Collection<int, Style>
+     */
+    #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'pages')]
+    private Collection $styles;
+
     public function __construct()
     {
         $this->sections = new ArrayCollection();
+        $this->styles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,4 +114,32 @@ class Page
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Style>
+     */
+    public function getStyles(): Collection
+    {
+        return $this->styles;
+    }
+
+    public function addStyle(Style $style): static
+    {
+        if (!$this->styles->contains($style)) {
+            $this->styles->add($style);
+            $style->addPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStyle(Style $style): static
+    {
+        if ($this->styles->removeElement($style)) {
+            $style->removePage($this);
+        }
+
+        return $this;
+    }
+
 }

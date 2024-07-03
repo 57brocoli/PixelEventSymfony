@@ -15,6 +15,22 @@
 				<a href="{{ path('admin_home') }}">retour</a>
 			</button>
 
+			<div class='box'>
+				<h2 class='t-center'>Pages</h2>
+				<div class="btnModifierLk my-2 t-center mx-4">
+					<a href="{{path('admin_edit_page')}}">Ajouter</a>
+				</div>
+				<div class='listItems'>
+					{% if pages is empty %}
+						<h3>Il y'a aucune page pour le moment</h3>
+					{% endif %}
+					{% for page in pages %}
+						<a href="{{ path('admin_page', {'id': page.id}) }}" class='card' {% if page.sections is not empty and page.sections[0].images is not empty %} style="background-image: url('{{ asset('uploads/page/' ~ page.sections[0].images[0]) }}');" {% endif %}>
+							<h2>{{ page.name }}</h2>
+						</a>
+					{% endfor %}
+				</div>
+			</div>
 
 			<div class='box'>
 				<h2 class='t-center'>Programme</h2>
@@ -28,27 +44,10 @@
 			</div>
 
 			<div class='box'>
-				<h2 class='t-center'>Pages</h2>
-				<div class="btnModifierLk my-2 t-center mx-4">
-					<a href="{{path('admin_edit_page')}}">Ajouter</a>
-				</div>
-				<div class='listItems'>
-					{% if pages is empty %}
-						<h3>Il y'a aucune page pour le moment</h3>
-					{% endif %}
-					{% for page in pages %}
-						<a href="{{ path('admin_page', {'id': page.id}) }}" class='card'>
-							<h2>{{ page.name }}</h2>
-						</a>
-					{% endfor %}
-				</div>
-			</div>
-
-			<div class='box'>
 				<h2 class='t-center'>Autre</h2>
 				<div class='listItems'>
 					{% for card in page.Autre %}
-						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/logo/' ~ card.image) }}');">
+						<a href="{{ path(card.link) }}" class='card' style="background-image: url('{{ asset('assets/img/' ~ card.image) }}');">
 							<h2>{{ card.titre }}</h2>
 						</a>
 					{% endfor %}

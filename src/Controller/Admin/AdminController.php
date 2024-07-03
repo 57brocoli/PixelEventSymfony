@@ -26,11 +26,12 @@ class AdminController extends AbstractController
             new Card('Ajouter un utilisateur', 'users.png', 'admin_edit_user'),
         ];
         $autre=[
-            new Card('Partenaires', 'sponsor.jpg', 'admin_home'),
             new Card('Artistes', 'artiste.jpg', 'admin_artistes'),
             new Card('Lieux', 'lieu.jpg', 'admin_lieux'),
+            new Card('Styles', 'style.png', 'admin_styles'),
             new Card('Notifications', 'notification.png', 'admin_home'),
             new Card('Liens', 'link.jpg', 'admin_home'),
+            new Card('Partenaires', 'sponsor.jpg', 'admin_home'),
         ];
         return $this->render('admin/index.html.twig', [
             'page' => $page,
@@ -80,9 +81,9 @@ class AdminController extends AbstractController
                 new Card('Scene', 'scene.jpg', 'admin_home')
             ],
             "Autre" => [
-                new Card('Lieux', 'logo.jpg', 'admin_home'),
-                new Card('Liens', 'logo.jpg', 'admin_home'),
-                new Card('Notifications', 'logo.jpg', 'admin_home'),
+                new Card('Lieux', 'lieu.jpg', 'admin_home'),
+                new Card('Liens', 'link.jpg', 'admin_home'),
+                new Card('Notifications', 'notification.png', 'admin_home'),
             ]
         ];
         return $this->render('admin/site webs et applications/nationsound.html.twig', [

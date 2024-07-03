@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Styles
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<section class='container py-2'>
+			<h1 class='titre t-center'>Styles</h1>
+			<div class='d-flex g-1'>
+				<button class='btnRetour'>
+					<a href="{{path("admin_styles")}}">Retour</a>
+				</button>
+			</div>
+		</section>
+
+		<section class='container'>
+			<section class='form-Container my-4 mx-1'>
+				{{ form_start(form) }}
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</main>
+{% endblock %}
