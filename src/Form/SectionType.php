@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\PageSection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,7 +16,19 @@ class SectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $choices = [
+            "Header" => "Header",
+            "Section" => "Section",
+        ];
+
         $builder
+            ->add('category', ChoiceType::class, [
+                'label' => 'Catégorie',
+                'choices' => $choices,
+                'attr'=> [
+                    'class'=>'choise'
+                ],
+            ])
             ->add('title', TextType::class, [
                 'label'=>'Titre'
             ])

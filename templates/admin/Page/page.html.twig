@@ -10,36 +10,73 @@
 {% block body %}
 	<main class='mainType'>
 		<h2 class='titre t-center'>{{page.name}}</h2>
-		<div class='d-flex a-items-center container'>
-			<div class="my-2">
-				{% include '_partials/btnRetour.html.twig' %}
-			</div>
-			<div class='button'>
+		<div class='d-flex container g-1'>
+			<button class='btnRetour'>
+				<a href="{{path("admin_nationsound")}}">Retour</a>
+			</button>
+			<div class='button '>
 				<a href="{{path("admin_edit_section", {page:page.id})}}">Ajouter une section</a>
+			</div>
+			<div class='buttonSupprimer'>
+				<a href="{{path("admin_delete_page", {id : page.id})}}">Supprimer la page</a>
 			</div>
 		</div>
 
 		<section class='container py-2'>
 			{% if page.sections is empty %}
 				<h3>La page est pour le moment vide</h3>
-			{% endif %}
-			{% for section in page.sections %}
-				{% if section.category == 'section' %}
-					<article class='pageSection py-2 my-2 container'>
-						<h2 class='t-center mb-2'>{{ section.title }}</h2>
-						<hr>
-						<button class='btnModifier my-2'>
-							<a href="{{ path("admin_edit_section", { page: page.id, id: section.id }) }}">Modifier</a>
-						</button>
-						<p>{{ section.content }}</p>
-						<div class="d-flex wrap j-content-center">
-							{% for image in section.images %}
-								<img src="{{ asset('uploads/page/' ~ image.name) }}" class='sectionImg' alt="image section">
-							{% endfor %}
-						</div>
-					</article>
+			{% else %}
+				{% if headerSections is empty %}
+					<h4>Il y'a aucun header pour le moment</h4>
+				{% else %}
+					<h2 class='titre t-center'>Header</h2>
+					{% for section in headerSections %}
+						<article class='pageSection py-2 my-2 container'>
+							<h2 class='t-center mb-2'>{{ section.title }}</h2>
+							<hr>
+							<button class='btnModifier my-2'>
+								<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
+							</button>
+							<button class='btnSupprimer my-2'>
+								<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
+							</button>
+							<p>{{ section.content }}</p>
+							<div class="d-flex wrap j-content-center">
+								{% for image in section.images %}
+									<img src="{{ asset('uploads/page/' ~ image.name) }}" class='sectionImg' alt="image section">
+								{% endfor %}
+							</div>
+						</article>
+					{% endfor %}
 				{% endif %}
-			{% endfor %}
+
+
+				{% if sectionSections is empty %}
+					<h4>Il y'a aucune section pour le moment</h4>
+				{% else %}
+					<h2 class='titre t-center mt-4'>Section(s)</h2>
+					{% for section in sectionSections %}
+						<article class='pageSection py-2 my-2 container'>
+							<h2 class='t-center mb-2'>{{ section.title }}</h2>
+							<hr>
+							<button class='btnModifier my-2'>
+								<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
+							</button>
+							<button class='btnSupprimer my-2'>
+								<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
+							</button>
+							<p>{{ section.content }}</p>
+							<div class="d-flex wrap j-content-center">
+								{% for image in section.images %}
+									<img src="{{ asset('uploads/page/' ~ image.name) }}" class='sectionImg' alt="image section">
+								{% endfor %}
+							</div>
+						</article>
+					{% endfor %}
+				{% endif %}
+			{% endif %}
+
+
 		</section>
 	</main>
 {% endblock %}
