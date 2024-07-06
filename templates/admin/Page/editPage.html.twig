@@ -3,7 +3,9 @@
 {% block title %}Edit page
 {% endblock %}
 
-{% block javascripts %}{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
 
 {% block body %}
 	<main class='mainType'>
@@ -30,10 +32,12 @@
 				<div>
 					{{ form_row(form.content) }}
 				</div>
+				<div>
+					{{ form_row(form.styles, {'attr': {'class': 'entity style-option'}, 'label': form.styles.vars.label|raw }) }}
+				</div>
 				<div class='mt-2'>
 					{{ form_row(form.Valider) }}
 				</div>
-
 				{{ form_end(form) }}
 			</section>
 		</section>

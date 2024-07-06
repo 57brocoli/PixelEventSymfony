@@ -125,6 +125,10 @@ class PageController extends AbstractController
                 $em->persist($img);
                 $section->addImage($img);
             }
+            $styles = $form->get('styles')->getData();
+            foreach ($styles as $style) {
+                $section->addStyle($style);
+            }
             $section->setPage($page);
             $em->persist($section);
             $em->flush();

@@ -56,7 +56,8 @@ class PageSection
     /**
      * @var Collection<int, Style>
      */
-    #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'pageSection')]
+    #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'pageSections')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $styles;
 
     public function __construct()
@@ -173,7 +174,6 @@ class PageSection
     {
         if (!$this->styles->contains($style)) {
             $this->styles->add($style);
-            $style->addPageSection($this);
         }
 
         return $this;
@@ -181,9 +181,7 @@ class PageSection
 
     public function removeStyle(Style $style): static
     {
-        if ($this->styles->removeElement($style)) {
-            $style->removePageSection($this);
-        }
+        $this->styles->removeElement($style);
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\PageSection;
+use App\Entity\Style;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -14,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SectionType extends AbstractType
 {
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [
@@ -36,7 +39,7 @@ class SectionType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',
                 'attr' => ['class' => 'tinymce'],
-                'required' =>false
+                'required' => false
             ])
             ->add('images', FileType::class, [
                 'attr'=> [
@@ -47,12 +50,34 @@ class SectionType extends AbstractType
                 'multiple'=>true,
                 'required'=>false
             ])
+            ->add('styles', EntityType::class, [
+                'class' => Style::class,
+                'choice_label' => 'formattedLabel',
+                'choice_attr' => function ($choiceValue, $key, $value) {
+                    // Vérifie si la propriété de l'entité est 'background-color' ou 'color'
+                    if ($choiceValue->getProperty() === 'background-color' || $choiceValue->getProperty() === 'color') {
+                        // Récupère la valeur de la propriété $value de l'entité Style
+                        $colorValue = $choiceValue->getValue(); // Assurez-vous que cette méthode correspond à votre implémentation
+
+                        // Retourne un tableau d'attributs avec la classe 'style-option' et la couleur de fond correspondante
+                        return [
+                            'class' => 'style-option',
+                            'style' => 'background-color: ' . $colorValue // Applique la couleur de fond dynamique
+                        ];
+                    }
+                    return []; // Retourne un tableau vide pour les autres options
+                },
+                'multiple' => true,
+                'required'=>false,
+                'attr' => [
+                    'class' => 'entity'
+                ]
+            ])
             ->add('Valider', SubmitType::class, [
                 'attr' => [
                     'class' => 'submit'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

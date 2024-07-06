@@ -33,19 +33,19 @@ class Style
     #[ORM\ManyToMany(targetEntity: Page::class, inversedBy: 'styles')]
     private Collection $pages;
 
+    #[ORM\ManyToOne(inversedBy: 'styles')]
+    private ?Category $category = null;
+
     /**
      * @var Collection<int, PageSection>
      */
-    #[ORM\ManyToMany(targetEntity: PageSection::class, inversedBy: 'styles')]
-    private Collection $pageSection;
-
-    #[ORM\ManyToOne(inversedBy: 'styles')]
-    private ?Category $category = null;
+    #[ORM\ManyToMany(targetEntity: PageSection::class, mappedBy: 'styles')]
+    private Collection $pageSections;
 
     public function __construct()
     {
         $this->pages = new ArrayCollection();
-        $this->pageSection = new ArrayCollection();
+        $this->pageSections = new ArrayCollection();
     }
 
 
@@ -78,13 +78,6 @@ class Style
         return $this;
     }
 
-
-
-    public function __toString()
-    {
-        return $this->getProperty() . ' : ' . $this->getValue();
-    }
-
     /**
      * @return Collection<int, Page>
      */
@@ -109,30 +102,6 @@ class Style
         return $this;
     }
 
-    /**
-     * @return Collection<int, PageSection>
-     */
-    public function getPageSection(): Collection
-    {
-        return $this->pageSection;
-    }
-
-    public function addPageSection(PageSection $pageSection): static
-    {
-        if (!$this->pageSection->contains($pageSection)) {
-            $this->pageSection->add($pageSection);
-        }
-
-        return $this;
-    }
-
-    public function removePageSection(PageSection $pageSection): static
-    {
-        $this->pageSection->removeElement($pageSection);
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -143,6 +112,43 @@ class Style
         $this->category = $category;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, PageSection>
+     */
+    public function getPageSections(): Collection
+    {
+        return $this->pageSections;
+    }
+
+    public function addPageSection(PageSection $pageSection): static
+    {
+        if (!$this->pageSections->contains($pageSection)) {
+            $this->pageSections->add($pageSection);
+            $pageSection->addStyle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageSection(PageSection $pageSection): static
+    {
+        if ($this->pageSections->removeElement($pageSection)) {
+            $pageSection->removeStyle($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getProperty() . ' : ' . $this->getValue();
+    }
+
+    public function getFormattedLabel()
+    {
+        return $this->getProperty() . ' : ' . $this->getValue();
     }
 
 }
