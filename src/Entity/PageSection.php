@@ -8,35 +8,49 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PageSectionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforPageSection']]),
+        new GetCollection(normalizationContext:['groups' => ['getforPageSection']]),
+    ]
+)]
 class PageSection
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $content = null;
 
     #[ORM\OneToOne(inversedBy: 'pageSectionImage', cascade: ['persist', 'remove'])]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?Image $image = null;
 
     /**
      * @var Collection<int, Image>
      */
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'pagesSectionImages')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $images;
 
     #[ORM\ManyToOne(inversedBy: 'sections')]
     private ?Page $page = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $Category = null;
 
     /**

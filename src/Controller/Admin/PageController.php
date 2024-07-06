@@ -33,7 +33,6 @@ class PageController extends AbstractController
     {
         $headerSections = [];
         $sectionSections = [];
-
         foreach ($page->getSections() as $section) {
             if ($section->getCategory() === 'Header') {
                 $headerSections[] = $section;
@@ -72,7 +71,7 @@ class PageController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('admin_nationsound');
         }
-        return $this->render('admin/Page/editPage.html.twig', [
+        return $this->render('admin/Page/editInitialPage.html.twig', [
             'form'=>$form
         ]);
     }

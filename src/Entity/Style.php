@@ -7,6 +7,7 @@ use App\Repository\StyleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StyleRepository::class)]
 #[ApiResource]
@@ -15,12 +16,15 @@ class Style
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforPage'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['getforPage'])]
     private ?string $property = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['getforPage'])]
     private ?string $value = null;
 
     /**
@@ -34,6 +38,9 @@ class Style
      */
     #[ORM\ManyToMany(targetEntity: PageSection::class, inversedBy: 'styles')]
     private Collection $pageSection;
+
+    #[ORM\ManyToOne(inversedBy: 'styles')]
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -122,6 +129,18 @@ class Style
     public function removePageSection(PageSection $pageSection): static
     {
         $this->pageSection->removeElement($pageSection);
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

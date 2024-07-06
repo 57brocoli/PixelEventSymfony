@@ -3,39 +3,53 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\PageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations:[
+        new Get(normalizationContext:['groups' => ['getforPage']]),
+        new GetCollection(normalizationContext:['groups' => ['getforPage']]),
+    ]
+)]
 class Page
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforPage'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['getforPage'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['getforPage'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 150, nullable: true)]
+    #[Groups(['getforPage'])]
     private ?string $belong = null;
 
     /**
      * @var Collection<int, PageSection>
      */
     #[ORM\OneToMany(targetEntity: PageSection::class, mappedBy: 'page')]
+    #[Groups(['getforPage'])]
     private Collection $sections;
 
     /**
      * @var Collection<int, Style>
      */
     #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'pages')]
+    #[Groups(['getforPage'])]
     private Collection $styles;
 
     public function __construct()

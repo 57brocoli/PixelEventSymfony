@@ -17,6 +17,7 @@ class SectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $choices = [
+            "" => "",
             "Header" => "Header",
             "Section" => "Section",
         ];
@@ -33,7 +34,9 @@ class SectionType extends AbstractType
                 'label'=>'Titre'
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Contenu'
+                'label' => 'Contenu',
+                'attr' => ['class' => 'tinymce'],
+                'required' =>false
             ])
             ->add('images', FileType::class, [
                 'attr'=> [

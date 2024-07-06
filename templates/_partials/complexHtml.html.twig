@@ -1,0 +1,5 @@
+{% if tag.kind in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'a', 'li'] %}
+	<{{tag.kind}}>{{ tag.content }}</{{tag.kind}}>
+{% else %}
+	<div>{{ tag.content }}</div>
+{% endif %}
