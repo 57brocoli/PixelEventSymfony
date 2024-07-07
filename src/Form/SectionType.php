@@ -35,7 +35,8 @@ class SectionType extends AbstractType
                 ],
             ])
             ->add('title', TextType::class, [
-                'label'=>'Titre'
+                'label'=>'Titre',
+                'required'=>false
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu',

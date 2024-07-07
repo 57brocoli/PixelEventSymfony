@@ -27,7 +27,7 @@ class PageSection
     #[Groups(['getforPage', 'getforPageSection'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 150, nullable:true)]
     #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $title = null;
 
@@ -85,7 +85,7 @@ class PageSection
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 

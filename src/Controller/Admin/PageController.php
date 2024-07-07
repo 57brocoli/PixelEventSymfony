@@ -72,7 +72,7 @@ class PageController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('admin_nationsound');
         }
-        return $this->render('admin/Page/editInitialPage.html.twig', [
+        return $this->render('admin/Page/editPage.html.twig', [
             'form'=>$form
         ]);
     }
@@ -137,7 +137,7 @@ class PageController extends AbstractController
                 'id' => $page->getId()
             ]);
         }
-        return $this->render('admin/Page/editPage.html.twig', [
+        return $this->render('admin/Page/sectionPage.html.twig', [
             'form'=>$form
         ]);
     }

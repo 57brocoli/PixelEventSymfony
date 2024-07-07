@@ -34,15 +34,17 @@
 				{% else %}
 					<div class='pageSection'>
 						{% for section in headerSections %}
+							{# Section pour les boutons #}
+							<div class='btnAbsSection'>
+								<button class='btnModifier'>
+									<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
+								</button>
+								<button class='btnSupprimer'>
+									<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
+								</button>
+							</div>
+							{# Section #}
 							<section class='header' {% if section.images is not empty %} style="background-image: url('{{ asset('uploads/page/' ~ section.images[0].name) }}')" {% endif %}>
-								<div class='btnAbsHeader'>
-									<button class='btnModifier'>
-										<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
-									</button>
-									<button class='btnSupprimer'>
-										<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
-									</button>
-								</div>
 								<article class='d-flex a-items-center flex-direction-colum'>
 									<h2 class=''>{{ section.title }}</h2>
 									<p>{{ section.content|raw }}</p>
@@ -53,6 +55,7 @@
 							<h4>Il y'a aucune section pour le moment</h4>
 						{% else %}
 							{% for section in sectionSections %}
+								{# Section pour les boutons #}
 								<div class='btnAbsSection'>
 									<button class='btnModifier'>
 										<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
@@ -61,22 +64,25 @@
 										<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
 									</button>
 								</div>
+								{# Section #}
 								<section class='{{section.getClassName()}}'>
 									<article style="{{section.getConcatPrpertyValue()}}">
-										<h2 class=''>{{ section.title }}</h2>
-										<p>{{ section.content|raw }}</p>
-										<div class="d-flex wrap j-content-center">
-											{% for image in section.images %}
-												<img src="{{ asset('uploads/page/' ~ image.name) }}" class='sectionImg' alt="image section">
-											{% endfor %}
-										</div>
+										<h2 class='t-center'>{{ section.title }}</h2>
+										<article>{{ section.content|raw }}</article>
 									</article>
-								</p>
-							</section>
-						{% endfor %}
-					{% endif %}
-				</div>
+									<div class="imageContainer">
+										{% for image in section.images %}
+											<div classname='d-flex a-items-center'>
+												<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
+											</div>
+										{% endfor %}
+									</div>
+								</section>
+							{% endfor %}
+						{% endif %}
+					</div>
+				{% endif %}
 			{% endif %}
-		{% endif %}
+		</section>
 	</main>
 {% endblock %}

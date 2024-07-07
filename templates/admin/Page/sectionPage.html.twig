@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit page
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+
+{% block body %}
+	<main class='mainType'>
+		<h2 class='titre t-center'>Page</h2>
+		<div class='d-flex a-items-center container'>
+			<div>
+				{% include '_partials/btnRetour.html.twig' %}
+			</div>
+		</div>
+		<section class='container'>
+			<section class='form-Container my-4 mx-1'>
+				{{ form_start(form) }}
+				<div>
+					{{ form_row(form.category) }}
+				</div>
+				<div>
+					{{ form_row(form.images) }}
+				</div>
+
+				<div>
+					{{ form_row(form.title) }}
+				</div>
+				<div>
+					{{ form_row(form.content) }}
+				</div>
+				<div class='d-flex g-2 mt-1'>
+					<div class='flex'>{{ form_row(form.styles, {'attr': {'class': 'entity style-option'} }) }}</div>
+					<div class='flex'>{{ form_row(form.class, {'attr': {'class': 'entity style-option'} }) }}</div>
+				</div>
+				<div>
+					{{ form_row(form.Valider) }}
+				</div>
+				{{ form_end(form) }}
+			</section>
+		</section>
+	</main>
+
+{% endblock %}
