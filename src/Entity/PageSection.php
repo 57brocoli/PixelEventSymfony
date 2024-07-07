@@ -185,5 +185,13 @@ class PageSection
 
         return $this;
     }
-
+    
+    public function getConcatPrpertyValue(): string
+    {
+        $stylesArray = [];
+        foreach ($this->styles as $style) {
+            $stylesArray[] = $style->getProperty() . ':' . $style->getValue();
+        }
+        return implode('; ', $stylesArray);
+    }
 }

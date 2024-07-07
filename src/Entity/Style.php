@@ -42,10 +42,18 @@ class Style
     #[ORM\ManyToMany(targetEntity: PageSection::class, mappedBy: 'styles')]
     private Collection $pageSections;
 
+    /**
+     * @var Collection<int, StyleGroup>
+     */
+    #[ORM\ManyToMany(targetEntity: StyleGroup::class, mappedBy: 'styles')]
+    #[Groups(['getforPage'])]
+    private Collection $styleGroups;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
         $this->pageSections = new ArrayCollection();
+        $this->styleGroups = new ArrayCollection();
     }
 
 
@@ -149,6 +157,33 @@ class Style
     public function getFormattedLabel()
     {
         return $this->getProperty() . ' : ' . $this->getValue();
+    }
+
+    /**
+     * @return Collection<int, StyleGroup>
+     */
+    public function getStyleGroups(): Collection
+    {
+        return $this->styleGroups;
+    }
+
+    public function addStyleGroup(StyleGroup $styleGroup): static
+    {
+        if (!$this->styleGroups->contains($styleGroup)) {
+            $this->styleGroups->add($styleGroup);
+            $styleGroup->addStyle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStyleGroup(StyleGroup $styleGroup): static
+    {
+        if ($this->styleGroups->removeElement($styleGroup)) {
+            $styleGroup->removeStyle($this);
+        }
+
+        return $this;
     }
 
 }
