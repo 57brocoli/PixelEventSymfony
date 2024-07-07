@@ -7,6 +7,7 @@ use App\Repository\StyleGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StyleGroupRepository::class)]
 #[ApiResource]
@@ -18,6 +19,7 @@ class StyleGroup
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $name = null;
 
     /**
@@ -26,9 +28,16 @@ class StyleGroup
     #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'styleGroups')]
     private Collection $styles;
 
+    /**
+     * @var Collection<int, PageSection>
+     */
+    #[ORM\ManyToMany(targetEntity: PageSection::class, mappedBy: 'class')]
+    private Collection $pageSections;
+
     public function __construct()
     {
         $this->styles = new ArrayCollection();
+        $this->pageSections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,5 +79,37 @@ class StyleGroup
         $this->styles->removeElement($style);
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, PageSection>
+     */
+    public function getPageSections(): Collection
+    {
+        return $this->pageSections;
+    }
+
+    public function addPageSection(PageSection $pageSection): static
+    {
+        if (!$this->pageSections->contains($pageSection)) {
+            $this->pageSections->add($pageSection);
+            $pageSection->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageSection(PageSection $pageSection): static
+    {
+        if ($this->pageSections->removeElement($pageSection)) {
+            $pageSection->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

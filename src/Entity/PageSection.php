@@ -60,10 +60,18 @@ class PageSection
     #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $styles;
 
+    /**
+     * @var Collection<int, StyleGroup>
+     */
+    #[ORM\ManyToMany(targetEntity: StyleGroup::class, inversedBy: 'pageSections')]
+    #[Groups(['getforPage', 'getforPageSection'])]
+    private Collection $class;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->styles = new ArrayCollection();
+        $this->class = new ArrayCollection();
     }
 
 
@@ -193,5 +201,38 @@ class PageSection
             $stylesArray[] = $style->getProperty() . ':' . $style->getValue();
         }
         return implode('; ', $stylesArray);
+    }
+
+    public function getClassName(): string
+    {
+        $class = [];
+        foreach ($this->class as $clas) {
+            $class[] = $clas->getName();
+        }
+        return implode(' ', $class);
+    }
+
+    /**
+     * @return Collection<int, StyleGroup>
+     */
+    public function getClass(): Collection
+    {
+        return $this->class;
+    }
+
+    public function addClass(StyleGroup $class): static
+    {
+        if (!$this->class->contains($class)) {
+            $this->class->add($class);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(StyleGroup $class): static
+    {
+        $this->class->removeElement($class);
+
+        return $this;
     }
 }

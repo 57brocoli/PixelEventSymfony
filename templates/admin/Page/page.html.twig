@@ -53,18 +53,17 @@
 							<h4>Il y'a aucune section pour le moment</h4>
 						{% else %}
 							{% for section in sectionSections %}
-								<section class=''>
-									<div class='btnAbsSection'>
-										<button class='btnModifier'>
-											<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
-										</button>
-										<button class='btnSupprimer'>
-											<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
-										</button>
-									</div>
+								<div class='btnAbsSection'>
+									<button class='btnModifier'>
+										<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
+									</button>
+									<button class='btnSupprimer'>
+										<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
+									</button>
+								</div>
+								<section class='{{section.getClassName()}}'>
 									<article style="{{section.getConcatPrpertyValue()}}">
 										<h2 class=''>{{ section.title }}</h2>
-										<p>{{section.getConcatPrpertyValue()}}</p>
 										<p>{{ section.content|raw }}</p>
 										<div class="d-flex wrap j-content-center">
 											{% for image in section.images %}
@@ -72,12 +71,12 @@
 											{% endfor %}
 										</div>
 									</article>
-								</section>
-							{% endfor %}
-						{% endif %}
-					</div>
-				{% endif %}
+								</p>
+							</section>
+						{% endfor %}
+					{% endif %}
+				</div>
 			{% endif %}
-		</section>
+		{% endif %}
 	</main>
 {% endblock %}

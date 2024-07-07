@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\PageSection;
 use App\Entity\Style;
+use App\Entity\StyleGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -51,6 +52,7 @@ class SectionType extends AbstractType
                 'required'=>false
             ])
             ->add('styles', EntityType::class, [
+                'label'=>'Styles',
                 'class' => Style::class,
                 'choice_label' => 'formattedLabel',
                 'choice_attr' => function ($choiceValue, $key, $value) {
@@ -72,6 +74,14 @@ class SectionType extends AbstractType
                 'attr' => [
                     'class' => 'entity'
                 ]
+            ])
+            ->add('class', EntityType::class, [
+                'label'=>'Groupe de styles',
+                'class' => StyleGroup::class,
+                'choice_label' => 'name',
+                // 'mapped'=>false,
+                'multiple' => true,
+                'required'=>false,
             ])
             ->add('Valider', SubmitType::class, [
                 'attr' => [
