@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ImageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,11 +23,16 @@ class Image
     #[Groups(['getforPage','getforPageSection'])]
     private ?string $name = null;
 
-    #[ORM\OneToOne(mappedBy: 'image', cascade: ['persist', 'remove'])]
-    private ?PageSection $pageSectionImage = null;
+    /**
+     * @var Collection<int, SectionContent>
+     */
+    #[ORM\ManyToMany(targetEntity: SectionContent::class, mappedBy: 'images')]
+    private Collection $sectionContents;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
-    private ?PageSection $pagesSectionImages = null;
+    public function __construct()
+    {
+        $this->sectionContents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -49,36 +56,29 @@ class Image
         return $this->getName();
     }
 
-    public function getPageSectionImage(): ?PageSection
+    /**
+     * @return Collection<int, SectionContent>
+     */
+    public function getSectionContents(): Collection
     {
-        return $this->pageSectionImage;
+        return $this->sectionContents;
     }
 
-    public function setPageSectionImage(?PageSection $pageSectionImage): static
+    public function addSectionContent(SectionContent $sectionContent): static
     {
-        // unset the owning side of the relation if necessary
-        if ($pageSectionImage === null && $this->pageSectionImage !== null) {
-            $this->pageSectionImage->setImage(null);
+        if (!$this->sectionContents->contains($sectionContent)) {
+            $this->sectionContents->add($sectionContent);
+            $sectionContent->addImage($this);
         }
-
-        // set the owning side of the relation if necessary
-        if ($pageSectionImage !== null && $pageSectionImage->getImage() !== $this) {
-            $pageSectionImage->setImage($this);
-        }
-
-        $this->pageSectionImage = $pageSectionImage;
 
         return $this;
     }
 
-    public function getPagesSectionImages(): ?PageSection
+    public function removeSectionContent(SectionContent $sectionContent): static
     {
-        return $this->pagesSectionImages;
-    }
-
-    public function setPagesSectionImages(?PageSection $pagesSectionImages): static
-    {
-        $this->pagesSectionImages = $pagesSectionImages;
+        if ($this->sectionContents->removeElement($sectionContent)) {
+            $sectionContent->removeImage($this);
+        }
 
         return $this;
     }

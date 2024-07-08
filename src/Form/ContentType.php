@@ -2,38 +2,37 @@
 
 namespace App\Form;
 
+use App\Entity\Image;
 use App\Entity\PageSection;
+use App\Entity\SectionContent;
 use App\Entity\Style;
 use App\Entity\StyleGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SectionType extends AbstractType
+class ContentType extends AbstractType
 {
-    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $choices = [
-            "" => "",
-            "Header" => "Header",
-            "Section" => "Section",
-        ];
-
         $builder
-            ->add('category', ChoiceType::class, [
-                'label' => 'Catégorie',
-                'choices' => $choices,
+            ->add('content', TextareaType::class, [
+                'label' => 'Contenu',
+                'attr' => ['class' => 'tinymce'],
+                'required' => false,
+            ])
+            ->add('images', FileType::class, [
                 'attr'=> [
-                    'class'=>'choise'
+                    'class'=>'file'
                 ],
+                'label'=>'Ajouter des images',
+                'multiple'=>true,
+                'required'=>false,
+                'mapped'=>false,
             ])
             ->add('styles', EntityType::class, [
                 'label'=>'Styles',
@@ -66,33 +65,22 @@ class SectionType extends AbstractType
                 // 'mapped'=>false,
                 'multiple' => true,
                 'required'=>false,
+                'attr' => [
+                    'class' => 'entity'
+                ]
             ])
-            ->add('content', TextareaType::class, [
-                'label' => 'Contenu',
-                'attr' => ['class' => 'tinymce'],
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('images', FileType::class, [
-                'attr'=> [
-                    'class'=>'file'
-                ],
-                'label'=>'Images',
-                'multiple'=>true,
-                'required'=>false,
-                'mapped' => false
-            ])
-            ->add('Valider', SubmitType::class, [
+            ->add('valider', SubmitType::class, [
                 'attr' => [
                     'class' => 'submit'
                 ]
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PageSection::class,
+            'data_class' => SectionContent::class,
         ]);
     }
 }

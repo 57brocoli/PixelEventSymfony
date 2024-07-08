@@ -9,7 +9,7 @@
 
 {% block body %}
 	<main class='mainType'>
-		<section class='container py-2'>
+		<section class='holder py-2'>
 			<h1 class='titre t-center'>{{ page.titre }}</h1>
 			<button class='btnRetour mb-2'>
 				<a href="{{ path('admin_home') }}">retour</a>
@@ -25,7 +25,7 @@
 						<h3>Il y'a aucune page pour le moment</h3>
 					{% endif %}
 					{% for page in pages %}
-						<a href="{{ path('admin_page', {'id': page.id}) }}" class='card' {% if page.sections is not empty and page.sections[0].images is not empty %} style="background-image: url('{{ asset('uploads/page/' ~ page.sections[0].images[0]) }}');" {% endif %}>
+						<a href="{{ path('admin_page', {'id': page.id}) }}" class='card' {% if page.sections is not empty and page.sections[0].contents[0].images is not empty %} style="background-image: url('{{ asset('uploads/page/' ~ page.sections[0].contents[0].images[0]) }}');" {% endif %}>
 							<h2>{{ page.name }}</h2>
 						</a>
 					{% endfor %}

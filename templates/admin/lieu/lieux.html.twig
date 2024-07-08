@@ -14,7 +14,7 @@
 {% block body %}
 	<main class='mainType'>
 		<h2 class='titre t-center'>Lieux</h2>
-		<div class='d-flex a-items-center container'>
+		<div class='d-flex a-items-center holder'>
 			<div>
 				{% include '_partials/btnRetour.html.twig' %}
 			</div>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<section class='container my-2'>
+		<section class='holder my-2'>
 			<h3>Liste de tous les lieux</h3>
 			<div class='d-flex wrap'>
 				{% for lieu in lieux %}

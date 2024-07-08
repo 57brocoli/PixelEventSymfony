@@ -86,4 +86,21 @@ class PictureService
         
         return $fichier;
     }
+
+    public function delete(string $fichier, ?string $folder = '')
+    {
+        if($fichier !== 'default.webp'){
+            $success = false;
+            $path = $this->params->get('images_directory') . $folder;
+
+            $original = $path . '/' . $fichier;
+
+            if(file_exists($original)){
+                unlink($original);
+                $success = true;
+            }
+            return $success;
+        }
+        return false;
+    }
 }

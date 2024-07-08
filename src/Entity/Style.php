@@ -49,11 +49,18 @@ class Style
     #[Groups(['getforPage'])]
     private Collection $styleGroups;
 
+    /**
+     * @var Collection<int, SectionContent>
+     */
+    #[ORM\ManyToMany(targetEntity: SectionContent::class, mappedBy: 'styles')]
+    private Collection $sectionContents;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
         $this->pageSections = new ArrayCollection();
         $this->styleGroups = new ArrayCollection();
+        $this->sectionContents = new ArrayCollection();
     }
 
 
@@ -181,6 +188,33 @@ class Style
     {
         if ($this->styleGroups->removeElement($styleGroup)) {
             $styleGroup->removeStyle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SectionContent>
+     */
+    public function getSectionContents(): Collection
+    {
+        return $this->sectionContents;
+    }
+
+    public function addSectionContent(SectionContent $sectionContent): static
+    {
+        if (!$this->sectionContents->contains($sectionContent)) {
+            $this->sectionContents->add($sectionContent);
+            $sectionContent->addStyle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSectionContent(SectionContent $sectionContent): static
+    {
+        if ($this->sectionContents->removeElement($sectionContent)) {
+            $sectionContent->removeStyle($this);
         }
 
         return $this;

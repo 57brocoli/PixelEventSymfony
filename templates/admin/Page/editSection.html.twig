@@ -1,23 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit section
+{% block title %}Edit page
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
+{% endblock %}
+{% block javascripts %}
+	<script src='{{asset('assets/js/adminScript.js')}}' defer></script>
 {% endblock %}
 
 {% block body %}
 	<main class='mainType'>
-		<h2 class='titre t-center'>Section</h2>
-		<div class='d-flex a-items-center container'>
+		<h2 class='titre t-center'>Page</h2>
+		<div class='d-flex a-items-center holder'>
 			<div>
 				{% include '_partials/btnRetour.html.twig' %}
 			</div>
 		</div>
-
-		<section class='container'>
+		<section class='holder'>
 			<section class='form-Container my-4 mx-1'>
 				{{ form_start(form) }}
+				<div>
+					{{ form_row(form.category) }}
+				</div>
+				<button class='showStyle buttonAjouter'>
+					<p>Styles</p>
+				</button>
+				<div class='boxStyle d-flex g-2 mt-1'>
+					<div class='flex'>{{ form_row(form.styles, {'attr': {'class': 'entity style-option'} }) }}</div>
+					<div class='flex'>{{ form_row(form.class, {'attr': {'class': 'entity style-option'} }) }}</div>
+				</div>
+				<div class='contentContainer'>
+					{% if new is same as(false) %}
+						<h3>Contenu de la section :</h3>
+						{% for content in section.contents %}
+							<div class="my-2">
+								<article>{{content.content|raw}}</article>
+								{% if content.images is not empty %}
+									<div class="d-flex wrap">
+										{% for image in content.images %}
+											<div class='m-3 d-flex flex-column '>
+												<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageFormSection' alt="image section">
+											</div>
+										{% endfor %}
+									</div>
+								{% endif %}
+								<div class="d-flex g-1 my-2">
+									<button class='buttonModifier'>
+										<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
+									</button>
+									<button class='buttonSupprimer'>
+										<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
+									</button>
+								</div>
+							</div>
+						{% endfor %}
+						<button class='buttonAjouter addContent mt-2'>
+							<p>Ajouter du contenu</p>
+						</button>
+						<div class='moreContent'>
+							{{ form_row(form.content) }}
+							{{ form_row(form.images) }}
+						</div>
+					{% else %}
+						{{ form_row(form.content) }}
+						{{ form_row(form.images) }}
+					{% endif %}
+				</div>
+				<div>
+					{{ form_row(form.Valider) }}
+				</div>
 				{{ form_end(form) }}
 			</section>
 		</section>
-
 	</main>
+
 {% endblock %}

@@ -27,25 +27,6 @@ class PageSection
     #[Groups(['getforPage', 'getforPageSection'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 150, nullable:true)]
-    #[Groups(['getforPage', 'getforPageSection'])]
-    private ?string $title = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['getforPage', 'getforPageSection'])]
-    private ?string $content = null;
-
-    #[ORM\OneToOne(inversedBy: 'pageSectionImage', cascade: ['persist', 'remove'])]
-    #[Groups(['getforPage', 'getforPageSection'])]
-    private ?Image $image = null;
-
-    /**
-     * @var Collection<int, Image>
-     */
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'pagesSectionImages')]
-    #[Groups(['getforPage', 'getforPageSection'])]
-    private Collection $images;
-
     #[ORM\ManyToOne(inversedBy: 'sections')]
     private ?Page $page = null;
 
@@ -67,83 +48,23 @@ class PageSection
     #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $class;
 
+    /**
+     * @var Collection<int, SectionContent>
+     */
+    #[ORM\OneToMany(targetEntity: SectionContent::class, mappedBy: 'section')]
+    private Collection $contents;
+
     public function __construct()
     {
-        $this->images = new ArrayCollection();
         $this->styles = new ArrayCollection();
         $this->class = new ArrayCollection();
+        $this->contents = new ArrayCollection();
     }
 
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): static
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Image>
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): static
-    {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setPagesSectionImages($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): static
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getPagesSectionImages() === $this) {
-                $image->setPagesSectionImages(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getPage(): ?Page
@@ -232,6 +153,36 @@ class PageSection
     public function removeClass(StyleGroup $class): static
     {
         $this->class->removeElement($class);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SectionContent>
+     */
+    public function getContents(): Collection
+    {
+        return $this->contents;
+    }
+
+    public function addContent(SectionContent $content): static
+    {
+        if (!$this->contents->contains($content)) {
+            $this->contents->add($content);
+            $content->setSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContent(SectionContent $content): static
+    {
+        if ($this->contents->removeElement($content)) {
+            // set the owning side to null (unless already changed)
+            if ($content->getSection() === $this) {
+                $content->setSection(null);
+            }
+        }
 
         return $this;
     }
