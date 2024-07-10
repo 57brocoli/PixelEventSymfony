@@ -26,10 +26,42 @@
 				<button class='showStyle buttonAjouter'>
 					<p>Styles</p>
 				</button>
-				<div class='boxStyle d-flex g-2 mt-1'>
-					<div class='flex'>{{ form_row(form.styles, {'attr': {'class': 'entity style-option'} }) }}</div>
-					<div class='flex'>{{ form_row(form.class, {'attr': {'class': 'entity style-option'} }) }}</div>
-				</div>
+				<section class='boxStyle mb-2'>
+					<div class="frame">
+						{% if new is same as(false) %}
+							<div class='d-flex g-2'>
+								<div class="flex mb-2">
+									<h3>Liste des styles :</h3>
+									<ul class='mx-2'>
+										{% for style in content.styles %}
+											<li>-
+												{{style.property}}
+												:
+												{{style.value}}</li>
+										{% endfor %}
+									</ul>
+								</div>
+								<div class="flex">
+									<h3>Groupe de styles :</h3>
+									<ul class='mx-2'>
+										{% for clas in content.class %}
+											<li>-
+												{{clas.name}}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						{% endif %}
+						<div class='d-flex g-2 mt-1'>
+							<div class='flex'>
+								{{ form_row(form.styles, {'attr': {'class': 'entity style-option'} }) }}
+							</div>
+							<div class='flex'>
+								{{ form_row(form.class, {'attr': {'class': 'entity style-option'} }) }}
+							</div>
+						</div>
+					</div>
+				</section>
 				<div>
 					{{ form_row(form.content) }}
 				</div>

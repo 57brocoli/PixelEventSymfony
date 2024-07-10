@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Image;
 use App\Entity\Page;
 use App\Entity\Style;
+use App\Entity\StyleGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,24 +19,41 @@ class PageType extends AbstractType
     
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $sites = [
-            'Nation Sound' => 'Nation Sound',
-            'Pixel Event' => 'Pixel Event',
-        ];
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la page'
+            ])
             ->add('styles', EntityType::class, [
+                'label'=>'Styles',
                 'class' => Style::class,
-                'choice_label' => function(Style $style) {
-                    return (string) $style; // Utilisation de la méthode __toString() pour l'affichage
+                'choice_label' => 'formattedLabel',
+                'choice_attr' => function ($choiceValue, $key, $value) {
+                    // Vérifie si la propriété de l'entité est 'background-color' ou 'color'
+                    if ($choiceValue->getProperty() === 'background-color' || $choiceValue->getProperty() === 'color') {
+                        // Récupère la valeur de la propriété $value de l'entité Style
+                        $colorValue = $choiceValue->getValue(); // Assurez-vous que cette méthode correspond à votre implémentation
+
+                        // Retourne un tableau d'attributs avec la classe 'style-option' et la couleur de fond correspondante
+                        return [
+                            'class' => 'style-option',
+                            'style' => 'background-color: ' . $colorValue // Applique la couleur de fond dynamique
+                        ];
+                    }
+                    return []; // Retourne un tableau vide pour les autres options
                 },
-                'placeholder' => 'Sélectionnez un style',
-                'required'=>false,
-                'mapped' => false,
                 'multiple' => true,
+                'required'=>false,
                 'attr' => [
-                    'class' => 'entity',
-                ],
+                    'class' => 'entity'
+                ]
+            ])
+            ->add('class', EntityType::class, [
+                'label' => 'Groupe de styles',
+                'class' => StyleGroup::class,
+                'choice_label' => 'name',
+                // 'mapped' => false,
+                'multiple' =>true,
+                'required' => false
             ])
             ->add('Valider', SubmitType::class, [
                 'attr' => [

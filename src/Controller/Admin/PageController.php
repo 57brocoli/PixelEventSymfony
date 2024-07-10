@@ -55,8 +55,10 @@ class PageController extends AbstractController
     #[Route('/edit/ns/{id?}', name: 'edit_page')]
     public function editPageForNs(Page $page=null, Request $request, SluggerInterface $si, EntityManagerInterface $em): Response
     {
+        $new = false;
         if (!$page) {
             $page = new Page();
+            $new = true;
         }
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
@@ -66,16 +68,16 @@ class PageController extends AbstractController
             $page->setSlug($slug);
             $page->setBelong('Nation Sound');
             $styles = $form->get('styles')->getData();
-            if ($styles) {
-                foreach ($styles as $style) {
-                    $page->addStyle($style);
-                }
+            foreach ($styles as $style) {
+                $page->addStyle($style);
             }
             $em->persist($page);
             $em->flush();
             return $this->redirectToRoute('admin_nationsound');
         }
         return $this->render('admin/Page/editPage.html.twig', [
+            'page' => $page,
+            'new' => $new,
             'form'=>$form
         ]);
     }
@@ -190,6 +192,7 @@ class PageController extends AbstractController
     public function editContentSection(Page $page, PageSection $section, SectionContent $content=null, Request $request, EntityManagerInterface $em, PictureService $pictureService): Response
     {
         if ($content) {
+            $new = false;
             $form = $this->createForm(ContentType::class, $content);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -207,15 +210,17 @@ class PageController extends AbstractController
                 $em->persist($content);
                 $em->flush();
                 return $this->redirectToRoute('admin_edit_section',[
+                    'new' => $new,
                     'page' =>$page->getId(),
                     'id' => $section->getId()
                 ]);
             }
+            return $this->render('admin/Page/editContent.html.twig', [
+                'new' => $new,
+                'content' => $content,
+                'form' => $form
+            ]);
         }
-        return $this->render('admin/Page/editContent.html.twig', [
-            'content' => $content,
-            'form' => $form
-        ]);
     }
 
     //Controller pour supprimer le contenu d'une section pour une page NationSound

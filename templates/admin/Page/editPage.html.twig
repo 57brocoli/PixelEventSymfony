@@ -7,6 +7,10 @@
 	<link rel="stylesheet" href="{{asset('assets/css/adminStyles.css')}}"/>
 {% endblock %}
 
+{% block javascripts %}
+	<script src='{{asset('assets/Js/adminScript.js')}}' defer></script>
+{% endblock %}
+
 {% block body %}
 	<main class='mainType'>
 		<h2 class='titre t-center'>Page</h2>
@@ -19,9 +23,48 @@
 		<section class='holder'>
 			<section class='form-Container my-4 mx-1'>
 				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				<button class='showStyle buttonAjouter'>
+					<p>Styles</p>
+				</button>
+				<section class='boxStyle'>
+					<div class="frame">
+						{% if new is same as(false) %}
+							<div class='d-flex g-2'>
+								<div class="flex mb-2">
+									<h3>Liste des styles :</h3>
+									<ul class='mx-2'>
+										{% for style in page.styles %}
+											<li>-
+												{{style.property}}
+												:
+												{{style.value}}</li>
+										{% endfor %}
+									</ul>
+								</div>
+								<div class="flex">
+									<h3>Groupe de styles :</h3>
+									<ul class='mx-2'>
+										{% for clas in page.class %}
+											<li>-
+												{{clas.name}}</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						{% endif %}
+						<div class='d-flex g-2 mt-1'>
+							<div class='flex'>
+								{{ form_row(form.styles, {'attr': {'class': 'entity style-option'} }) }}
+							</div>
+							<div class='flex'>
+								{{ form_row(form.class, {'attr': {'class': 'entity style-option'} }) }}
+							</div>
+						</div>
+					</div>
+				</section>
 				{{ form_end(form) }}
 			</section>
 		</section>
-
 	</main>
 {% endblock %}

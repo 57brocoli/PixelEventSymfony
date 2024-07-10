@@ -40,11 +40,18 @@ class StyleGroup
     #[ORM\ManyToMany(targetEntity: SectionContent::class, mappedBy: 'class')]
     private Collection $sectionContents;
 
+    /**
+     * @var Collection<int, Page>
+     */
+    #[ORM\ManyToMany(targetEntity: Page::class, mappedBy: 'class')]
+    private Collection $pages;
+
     public function __construct()
     {
         $this->styles = new ArrayCollection();
         $this->pageSections = new ArrayCollection();
         $this->sectionContents = new ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +149,33 @@ class StyleGroup
     {
         if ($this->sectionContents->removeElement($sectionContent)) {
             $sectionContent->removeClass($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Page>
+     */
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    public function addPage(Page $page): static
+    {
+        if (!$this->pages->contains($page)) {
+            $this->pages->add($page);
+            $page->addClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removePage(Page $page): static
+    {
+        if ($this->pages->removeElement($page)) {
+            $page->removeClass($this);
         }
 
         return $this;

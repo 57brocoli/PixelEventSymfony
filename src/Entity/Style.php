@@ -27,12 +27,6 @@ class Style
     #[Groups(['getforPage'])]
     private ?string $value = null;
 
-    /**
-     * @var Collection<int, Page>
-     */
-    #[ORM\ManyToMany(targetEntity: Page::class, inversedBy: 'styles')]
-    private Collection $pages;
-
     #[ORM\ManyToOne(inversedBy: 'styles')]
     private ?Category $category = null;
 
@@ -55,12 +49,18 @@ class Style
     #[ORM\ManyToMany(targetEntity: SectionContent::class, mappedBy: 'styles')]
     private Collection $sectionContents;
 
+    /**
+     * @var Collection<int, Page>
+     */
+    #[ORM\ManyToMany(targetEntity: Page::class, mappedBy: 'styles')]
+    private Collection $pages;
+
     public function __construct()
     {
-        $this->pages = new ArrayCollection();
         $this->pageSections = new ArrayCollection();
         $this->styleGroups = new ArrayCollection();
         $this->sectionContents = new ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
 
@@ -89,30 +89,6 @@ class Style
     public function setValue(string $value): static
     {
         $this->value = $value;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Page>
-     */
-    public function getPages(): Collection
-    {
-        return $this->pages;
-    }
-
-    public function addPage(Page $page): static
-    {
-        if (!$this->pages->contains($page)) {
-            $this->pages->add($page);
-        }
-
-        return $this;
-    }
-
-    public function removePage(Page $page): static
-    {
-        $this->pages->removeElement($page);
 
         return $this;
     }
@@ -215,6 +191,33 @@ class Style
     {
         if ($this->sectionContents->removeElement($sectionContent)) {
             $sectionContent->removeStyle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Page>
+     */
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    public function addPage(Page $page): static
+    {
+        if (!$this->pages->contains($page)) {
+            $this->pages->add($page);
+            $page->addStyle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePage(Page $page): static
+    {
+        if ($this->pages->removeElement($page)) {
+            $page->removeStyle($this);
         }
 
         return $this;

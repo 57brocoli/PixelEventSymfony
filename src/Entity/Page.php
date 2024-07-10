@@ -48,14 +48,20 @@ class Page
     /**
      * @var Collection<int, Style>
      */
-    #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'pages')]
-    #[Groups(['getforPage'])]
+    #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'pages')]
     private Collection $styles;
+
+    /**
+     * @var Collection<int, StyleGroup>
+     */
+    #[ORM\ManyToMany(targetEntity: StyleGroup::class, inversedBy: 'pages')]
+    private Collection $class;
 
     public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->styles = new ArrayCollection();
+        $this->class = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,7 +147,6 @@ class Page
     {
         if (!$this->styles->contains($style)) {
             $this->styles->add($style);
-            $style->addPage($this);
         }
 
         return $this;
@@ -149,9 +154,31 @@ class Page
 
     public function removeStyle(Style $style): static
     {
-        if ($this->styles->removeElement($style)) {
-            $style->removePage($this);
+        $this->styles->removeElement($style);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StyleGroup>
+     */
+    public function getClass(): Collection
+    {
+        return $this->class;
+    }
+
+    public function addClass(StyleGroup $class): static
+    {
+        if (!$this->class->contains($class)) {
+            $this->class->add($class);
         }
+
+        return $this;
+    }
+
+    public function removeClass(StyleGroup $class): static
+    {
+        $this->class->removeElement($class);
 
         return $this;
     }
@@ -163,6 +190,15 @@ class Page
             $stylesArray[] = $style->getProperty() . ':' . $style->getValue();
         }
         return implode('; ', $stylesArray);
+    }
+
+    public function getClassName(): string
+    {
+        $class = [];
+        foreach ($this->class as $clas) {
+            $class[] = $clas->getName();
+        }
+        return implode(' ', $class);
     }
 
 }
