@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SectionContentRepository::class)]
 class SectionContent
@@ -14,15 +15,18 @@ class SectionContent
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private ?string $content = null;
 
     /**
      * @var Collection<int, Image>
      */
     #[ORM\ManyToMany(targetEntity: Image::class, inversedBy: 'sectionContents')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $images;
 
     #[ORM\ManyToOne(inversedBy: 'contents')]
@@ -32,12 +36,14 @@ class SectionContent
      * @var Collection<int, Style>
      */
     #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'sectionContents')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $styles;
 
     /**
      * @var Collection<int, StyleGroup>
      */
     #[ORM\ManyToMany(targetEntity: StyleGroup::class, inversedBy: 'sectionContents')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $class;
 
     public function __construct()

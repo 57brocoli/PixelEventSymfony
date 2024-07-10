@@ -52,6 +52,7 @@ class PageSection
      * @var Collection<int, SectionContent>
      */
     #[ORM\OneToMany(targetEntity: SectionContent::class, mappedBy: 'section')]
+    #[Groups(['getforPage', 'getforPageSection'])]
     private Collection $contents;
 
     public function __construct()
