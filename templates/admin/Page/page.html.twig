@@ -31,31 +31,6 @@
 				{% if page.sections is empty %}
 					<h3>La page est pour le moment vide</h3>
 				{% endif %}
-				{% if headerSections is empty %}
-					<h4>Il y'a aucun header pour le moment</h4>
-				{% else %}
-					{% for section in headerSections %}
-						{# Section pour les boutons #}
-						<div class='btnAbsSection'>
-							<button class='btnModifier'>
-								<a href="{{ path('admin_edit_section', { page: page.id, id: section.id }) }}">Modifier</a>
-							</button>
-							<button class='btnSupprimer'>
-								<a href="{{ path('admin_delete_section', { page: page.id, id: section.id }) }}">Supprimer</a>
-							</button>
-						</div>
-						{# Section #}
-						{% for content in section.contents %}
-							<section class='header' {% if content.images is not empty %} style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}')" {% endif %}>
-								<article class='d-flex a-items-center flex-direction-colum'>
-									<p>{{ content.content|raw }}</p>
-								</article>
-							</section>
-						{% endfor %}
-
-					{% endfor %}
-
-				{% endif %}
 				{% if sectionSections is empty %}
 					<h4>Il y'a aucune section pour le moment</h4>
 				{% else %}
@@ -70,22 +45,37 @@
 							</button>
 						</div>
 						{# Section #}
-						<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
-							{% for content in section.contents %}
-								<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
-									<article>
-										{{ content.content|raw }}
-									</article>
-									{% if content.images is not empty %}
-										<div class="imageContainer">
-											{% for image in content.images %}
-												<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
-											{% endfor %}
+
+						{# Si la section poss-de la classe header #}
+						{% if "header" in section.getClassName() %}
+							<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
+								{% for content in section.contents %}
+									<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}')" {% endif %}>
+										<article>
+											{{ content.content|raw }}
+										</article>
+									</section>
+								{% endfor %}
+							</section>
+						{% else %}
+							{# Pour les autre type de section #}
+							<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
+								{% for content in section.contents %}
+									<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
+										<article>
+											{{ content.content|raw }}
+										</article>
+										{% if content.images is not empty %}
+											<div class="imageContainer">
+												{% for image in content.images %}
+													<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
+												{% endfor %}
+											</div>
 										</div>
 									{% endif %}
-								</div>
-							{% endfor %}
-						</section>
+								{% endfor %}
+							</section>
+						{% endif %}
 					{% endfor %}
 				{% endif %}
 			</div>

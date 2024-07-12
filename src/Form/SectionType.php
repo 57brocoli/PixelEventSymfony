@@ -23,7 +23,6 @@ class SectionType extends AbstractType
     {
         $choices = [
             "" => "",
-            "Header" => "Header",
             "Section" => "Section",
         ];
 

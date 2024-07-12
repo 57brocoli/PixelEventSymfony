@@ -68,19 +68,41 @@
 					{% if new is same as(false) %}
 						<div>
 							<h3>Contenu de la section :</h3>
-							<div class='pageSection'>
-								<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
+							<div
+								class='pageSection'>
+								{# Si la section possède la class "header" #}
+								{% if "header" in section.getClassName() %}
 									{% for content in section.contents %}
-										<div>
-											<div class="btnAbsSection">
-												<button class='btnModifier'>
-													<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
-												</button>
-												<button class='btnSupprimer'>
-													<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
-												</button>
-											</div>
+										<div class="btnAbsSection">
+											<button class='btnModifier'>
+												<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
+											</button>
+											<button class='btnSupprimer'>
+												<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
+											</button>
+										</div>
+										<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
+											<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}')" {% endif %}>
+												<article>
+													{{ content.content|raw }}
+												</article>
+											</section>
+
+										</section>
+									{% endfor %}
+								{% else %}
+									{# Pour les autre type de section #}
+									<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
+										{% for content in section.contents %}
 											<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
+												<div class="btnAbsSection">
+													<button class='btnModifier'>
+														<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
+													</button>
+													<button class='btnSupprimer'>
+														<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
+													</button>
+												</div>
 												<article>
 													{{ content.content|raw }}
 												</article>
@@ -90,25 +112,30 @@
 															<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
 														{% endfor %}
 													</div>
-												{% endif %}
-											</div>
-
-										</div>
-
-									{% endfor %}
-								</section>
+												</div>
+											{% endif %}
+										{% endfor %}
+									</section>
+								{% endif %}
 
 							</div>
 						</div>
-
-
-						<button class='buttonAjouter addContent mt-2'>
-							<p>Ajouter du contenu</p>
-						</button>
-						<div class='moreContent'>
-							{{ form_row(form.content) }}
-							{{ form_row(form.images) }}
-						</div>
+						{# Si la section est de catégory header, imppossible de rajouter du contenu #}
+						{% if "header" in section.getClassName() %}
+							<div style={{'display:none'}}>
+								{{ form_row(form.content) }}
+								{{ form_row(form.images) }}
+							</div>
+						{% else %}
+							{# Pour tout autre catégory	on affiche le button et les champs pour ajouter du contenu #}
+							<button class='buttonAjouter addContent mt-2'>
+								<p>Ajouter du contenu</p>
+							</button>
+							<div class='moreContent'>
+								{{ form_row(form.content) }}
+								{{ form_row(form.images) }}
+							</div>
+						{% endif %}
 					{% else %}
 						{{ form_row(form.content) }}
 						{{ form_row(form.images) }}
@@ -121,5 +148,4 @@
 			</section>
 		</section>
 	</main>
-
 {% endblock %}

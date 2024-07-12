@@ -49,12 +49,14 @@ class Page
      * @var Collection<int, Style>
      */
     #[ORM\ManyToMany(targetEntity: Style::class, inversedBy: 'pages')]
+    #[Groups(['getforPage'])]
     private Collection $styles;
 
     /**
      * @var Collection<int, StyleGroup>
      */
     #[ORM\ManyToMany(targetEntity: StyleGroup::class, inversedBy: 'pages')]
+    #[Groups(['getforPage'])]
     private Collection $class;
 
     public function __construct()

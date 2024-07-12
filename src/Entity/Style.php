@@ -40,7 +40,6 @@ class Style
      * @var Collection<int, StyleGroup>
      */
     #[ORM\ManyToMany(targetEntity: StyleGroup::class, mappedBy: 'styles')]
-    #[Groups(['getforPage'])]
     private Collection $styleGroups;
 
     /**
