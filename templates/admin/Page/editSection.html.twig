@@ -87,14 +87,31 @@
 													{{ content.content|raw }}
 												</article>
 											</section>
-
 										</section>
 									{% endfor %}
 								{% else %}
 									{# Pour les autre type de section #}
 									<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
 										{% for content in section.contents %}
-											<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
+											{% if "header" in content.getClassName()  %}
+												{# Si le contenu possède la classe header #}
+												<div>
+													<div class="btnAbsSection">
+														<button class='btnModifier'>
+															<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
+														</button>
+														<button class='btnSupprimer'>
+															<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
+														</button>
+													</div>
+													<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}'); {{content.getConcatPrpertyValue()}}" {% endif %}>
+														<article>
+															{{ content.content|raw }}
+														</article>
+													</section>
+												</div>
+											{% else %}
+												{# Pour les autre type de contenu #}
 												<div class="btnAbsSection">
 													<button class='btnModifier'>
 														<a href="{{path('admin_edit_content', {page:page.id, section:section.id, id:content.id})}}">Modifier</a>
@@ -103,15 +120,17 @@
 														<a href="{{path('admin_delete_content', {page:page.id, section:section.id, id:content.id})}}">Supprimer</a>
 													</button>
 												</div>
-												<article>
-													{{ content.content|raw }}
-												</article>
-												{% if content.images is not empty %}
-													<div class="imageContainer">
-														{% for image in content.images %}
-															<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
-														{% endfor %}
-													</div>
+												<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
+													<article>
+														<p>{{ content.content|raw }}</p>
+													</article>
+													{% if content.images is not empty %}
+														<div class="imageContainer">
+															{% for image in content.images %}
+																<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
+															{% endfor %}
+														</div>
+													{% endif %}
 												</div>
 											{% endif %}
 										{% endfor %}

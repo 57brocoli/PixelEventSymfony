@@ -46,8 +46,8 @@
 						</div>
 						{# Section #}
 
-						{# Si la section poss-de la classe header #}
 						{% if "header" in section.getClassName() %}
+							{# Si la section possède la classe header #}
 							<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
 								{% for content in section.contents %}
 									<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}')" {% endif %}>
@@ -61,16 +61,26 @@
 							{# Pour les autre type de section #}
 							<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
 								{% for content in section.contents %}
-									<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
-										<article>
-											{{ content.content|raw }}
-										</article>
-										{% if content.images is not empty %}
-											<div class="imageContainer">
-												{% for image in content.images %}
-													<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
-												{% endfor %}
-											</div>
+									{% if "header" in content.getClassName()  %}
+										{# Si le contenu possède la classe header #}
+										<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}'); {{content.getConcatPrpertyValue()}}" {% endif %}>
+											<article>
+												{{ content.content|raw }}
+											</article>
+										</section>
+									{% else %}
+										{# Pour les autre type de contenu #}
+										<div class='{{content.getClassName()}}' style="{{content.getConcatPrpertyValue()}}">
+											<article>
+												<p>{{ content.content|raw }}</p>
+											</article>
+											{% if content.images is not empty %}
+												<div class="imageContainer">
+													{% for image in content.images %}
+														<img src="{{ asset('uploads/page/' ~ image.name) }}" class='imageSection' alt="image section">
+													{% endfor %}
+												</div>
+											{% endif %}
 										</div>
 									{% endif %}
 								{% endfor %}
