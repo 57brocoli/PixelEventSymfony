@@ -50,7 +50,7 @@
 							{# Si la section possède la classe header #}
 							<section class='{{section.getClassName()}}' style="{{section.getConcatPrpertyValue()}}">
 								{% for content in section.contents %}
-									<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}')" {% endif %}>
+									<section {% if content.images is not empty %} class='{{content.getClassName()}}' style="background-image: url('{{ asset('uploads/page/' ~ content.images[0].name) }}'); {{content.getConcatPrpertyValue()}}" {% endif %}>
 										<article>
 											{{ content.content|raw }}
 										</article>
